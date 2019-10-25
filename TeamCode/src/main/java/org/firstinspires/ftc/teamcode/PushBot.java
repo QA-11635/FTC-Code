@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -55,26 +56,35 @@ import com.qualcomm.robotcore.util.Range;
 public class PushBot extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDrive = null;
-    private DcMotor rightDrive = null;
+    private DcMotor leftA = null;
+    private DcMotor leftB = null;
+    private DcMotor rightA = null;
+    private DcMotor rightB = null;
+    private Servo testServo = null;
 
     /*
      * Code to run ONCE when the driver hits INIT
      */
     @Override
     public void init() {
-        telemetry.addData("Status", "ayala bi");
+        telemetry.addData("Status", "Quack Attack!");
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftDrive = hardwareMap.get(DcMotor.class, "left");
-        rightDrive = hardwareMap.get(DcMotor.class, "right");
+        leftA = hardwareMap.get(DcMotor.class, "leftA");
+        leftB = hardwareMap.get(DcMotor.class, "leftB");
+        rightA = hardwareMap.get(DcMotor.class, "rightA");
+        rightB = hardwareMap.get(DcMotor.class, "rightB");
+
+        testServo = hardwareMap.get(Servo.class, "test_servo");
 //
 //        // Most robots need the motor on one side to be reversed to drive forward
 //        // Reverse the motor that runs backwards when connected directly to the battery
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftA.setDirection(DcMotor.Direction.FORWARD);
+        leftB.setDirection(DcMotor.Direction.FORWARD);
+        rightA.setDirection(DcMotor.Direction.FORWARD);
+        rightB.setDirection(DcMotor.Direction.FORWARD);
 //
 //        // Tell the driver that initialization is complete.
 //        telemetry.addData("Status", "Initialized");
@@ -130,12 +140,18 @@ public class PushBot extends OpMode {
             rightPower = 0;
         }
 
-        leftDrive.setPower(leftPower);
-        rightDrive.setPower(rightPower);
+        leftA.setPower(leftPower);
+        leftB.setPower(leftPower);
+        rightA.setPower(rightPower);
+        rightB.setPower(rightPower);
+
+        testServo.setPosition(gamepad1.right_stick_y >= 0.0 ? gamepad1.right_stick_y : 0);
 
         // Show the elapsed game time and wheel power.
 //        telemetry.addData("Status", "Run Time: " + runtime.toString());
 //        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+
+
     }
 
     /*
