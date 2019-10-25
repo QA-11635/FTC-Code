@@ -55,12 +55,21 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name = "PushBot", group = "Iterative Opmode")
 public class PushBot extends OpMode {
     // Declare OpMode members.
+
+    private static final int TICK_PER_REVOLUTION = 537;
+    private static final double WHEEL_RADIUS = 0.05;
+    private static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
+    private static final double TICK_PER_METER = (WHEEL_CIRCUMFERENCE) * TICK_PER_REVOLUTION;
+
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftA = null;
     private DcMotor leftB = null;
     private DcMotor rightA = null;
     private DcMotor rightB = null;
     private Servo testServo = null;
+
+    private PID leftPID;
+    private PID rightPID;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -78,13 +87,15 @@ public class PushBot extends OpMode {
         rightB = hardwareMap.get(DcMotor.class, "rightB");
 
         testServo = hardwareMap.get(Servo.class, "test_servo");
-//
+
+        leftPID = new PID(1, 0, 0);
+        //
 //        // Most robots need the motor on one side to be reversed to drive forward
 //        // Reverse the motor that runs backwards when connected directly to the battery
         leftA.setDirection(DcMotor.Direction.FORWARD);
         leftB.setDirection(DcMotor.Direction.FORWARD);
-        rightA.setDirection(DcMotor.Direction.FORWARD);
-        rightB.setDirection(DcMotor.Direction.FORWARD);
+        rightA.setDirection(DcMotor.Direction.REVERSE);
+        rightB.setDirection(DcMotor.Direction.REVERSE);
 //
 //        // Tell the driver that initialization is complete.
 //        telemetry.addData("Status", "Initialized");
@@ -110,6 +121,7 @@ public class PushBot extends OpMode {
      */
     @Override
     public void loop() {
+        telemetry.addData("Encoder", "" + leftB.getCurrentPosition());
         // Setup a variable for each drive wheel to save power level for telemetry
         double leftPower;
         double rightPower;
@@ -120,12 +132,13 @@ public class PushBot extends OpMode {
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
         double drive = -gamepad1.left_stick_y;
-        double turn = -gamepad1.right_stick_x;
+        double turn = gamepad1.left_stick_x;
         telemetry.addData("Joystick", "Drive: " + drive + " Turn: " + turn);
+
+        turn /= 2;
 
         leftPower = Range.clip(drive + turn, -1.0, 1.0);
         rightPower = Range.clip(drive - turn, -1.0, 1.0);
-
 
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
@@ -134,16 +147,20 @@ public class PushBot extends OpMode {
 
         // Send calculated power to wheels
 
-        if (turn < 0) {
-            leftPower = 0;
-        } else if (turn > 0) {
-            rightPower = 0;
-        }
+        leftPower /= 3;
+        rightPower /= 3;
 
-        leftA.setPower(leftPower);
-        leftB.setPower(leftPower);
-        rightA.setPower(rightPower);
-        rightB.setPower(rightPower);
+//        leftA.setPower(leftPower);
+//        leftB.setPower(leftPower);
+//        rightA.setPower(rightPower);
+//        rightB.setPower(rightPower);
+
+        double power = leftPID.calculate(leftB.getCurrentPosition(), TICK_PER_METER)/5;
+
+        leftA.setPower(power);
+        leftB.setPower(power);
+        rightA.setPower(power);
+        rightB.setPower(power);
 
         testServo.setPosition(gamepad1.right_stick_y >= 0.0 ? gamepad1.right_stick_y : 0);
 
