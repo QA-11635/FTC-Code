@@ -14,10 +14,15 @@ public class PID {
         this.kD = kD;
     }
 
-    public double calculate(double current, double setpoint) {
-        double error = setpoint - current;
-        derivative = (error - lastError) / DT;
-        integral += error * DT;
-        return kP * (error) + kI * (integral) + kD * (derivative);
+    public double calculate(double current, double setpoint, double tolerance) {
+        double error = (setpoint - current) / setpoint;
+        if (Math.abs(error) > tolerance) {
+            derivative = (error - lastError) / DT;
+            integral += error * DT;
+            lastError = error;
+            return kP * (error) + kI * (integral) + kD * (derivative);
+        } else {
+            return 0;
+        }
     }
 }

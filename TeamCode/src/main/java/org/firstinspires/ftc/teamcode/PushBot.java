@@ -59,7 +59,7 @@ public class PushBot extends OpMode {
     private static final int TICK_PER_REVOLUTION = 537;
     private static final double WHEEL_RADIUS = 0.05;
     private static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
-    private static final double TICK_PER_METER = (WHEEL_CIRCUMFERENCE) * TICK_PER_REVOLUTION;
+    private static final double TICK_PER_METER = (1 / WHEEL_CIRCUMFERENCE) * TICK_PER_REVOLUTION;
 
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftA = null;
@@ -76,7 +76,7 @@ public class PushBot extends OpMode {
      */
     @Override
     public void init() {
-        telemetry.addData("Status", "Quack Attack!");
+        telemetry.addData("Status", "Quack Attack!!!");
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -121,7 +121,6 @@ public class PushBot extends OpMode {
      */
     @Override
     public void loop() {
-        telemetry.addData("Encoder", "" + leftB.getCurrentPosition());
         // Setup a variable for each drive wheel to save power level for telemetry
         double leftPower;
         double rightPower;
@@ -155,7 +154,9 @@ public class PushBot extends OpMode {
 //        rightA.setPower(rightPower);
 //        rightB.setPower(rightPower);
 
-        double power = leftPID.calculate(leftB.getCurrentPosition(), TICK_PER_METER)/5;
+        double power = leftPID.calculate(leftB.getCurrentPosition(), TICK_PER_METER, 0.002);
+
+        telemetry.addData("Encoder", power + " " + leftB.getCurrentPosition() + "/" + TICK_PER_METER);
 
         leftA.setPower(power);
         leftB.setPower(power);
