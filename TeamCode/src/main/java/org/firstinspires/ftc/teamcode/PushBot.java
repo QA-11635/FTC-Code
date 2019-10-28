@@ -146,22 +146,22 @@ public class PushBot extends OpMode {
 
         // Send calculated power to wheels
 
-        leftPower /= 3;
-        rightPower /= 3;
+        leftPower /= 2;
+        rightPower /= 2;
 
-//        leftA.setPower(leftPower);
-//        leftB.setPower(leftPower);
-//        rightA.setPower(rightPower);
-//        rightB.setPower(rightPower);
+        leftA.setPower(leftPower);
+        leftB.setPower(leftPower);
+        rightA.setPower(rightPower);
+        rightB.setPower(rightPower);
 
-        double power = leftPID.calculate(leftB.getCurrentPosition(), TICK_PER_METER, 0.002);
-
-        telemetry.addData("Encoder", power + " " + leftB.getCurrentPosition() + "/" + TICK_PER_METER);
-
-        leftA.setPower(power);
-        leftB.setPower(power);
-        rightA.setPower(power);
-        rightB.setPower(power);
+//        double power = leftPID.calculate(leftB.getCurrentPosition(), TICK_PER_METER, 0.002);
+//
+//        telemetry.addData("Encoder", power + " " + leftB.getCurrentPosition() + "/" + TICK_PER_METER);
+//
+//        leftA.setPower(power);
+//        leftB.setPower(power);
+//        rightA.setPower(power);
+//        rightB.setPower(power);
 
         testServo.setPosition(gamepad1.right_stick_y >= 0.0 ? gamepad1.right_stick_y : 0);
 
