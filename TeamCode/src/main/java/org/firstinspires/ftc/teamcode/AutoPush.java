@@ -39,7 +39,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.Gyroscope;
-
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -47,11 +46,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -66,9 +72,11 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
+// Initialize the hardware variables. Note that the strings used here as parameters
 
-@TeleOp(name = "PushBot", group = "Iterative Opmode")
-public class PushBot extends OpMode {
+
+@Autonomous(name = "AutoPush", group = "Autonomous")
+public class AutoPush extends OpMode {
     // Declare OpMode members.
 
     private static final int TICK_PER_REVOLUTION = 537;
@@ -83,21 +91,18 @@ public class PushBot extends OpMode {
     private DcMotor rightB = null;
     private Servo testServo = null;
 
-    private PID leftPID;
-    private PID rightPID;
+    private PID goodPID;
 
-    BNO055IMU imu;
-    Orientation lastAngles = new Orientation();
-    double globalAngle, power = .30, correction;
 
-    /*
+    private BNO055IMU               imu;
+    private Orientation             lastAngles = new Orientation();
+    private double                  globalAngle, power = .30, correction;
+    /*s
      * Code to run ONCE when the driver hits INIT
      */
     @Override
     public void init() {
         telemetry.addData("Status", "Quack Attack!!!");
-
-        // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
         leftA = hardwareMap.get(DcMotor.class, "leftA");
@@ -107,14 +112,27 @@ public class PushBot extends OpMode {
 
         testServo = hardwareMap.get(Servo.class, "test_servo");
 
-        leftPID = new PID(1, 0, 0);
+        goodPID = new PID(0.067, 0, 0.001);
+//        goodPID = new PID(0.067, 0, 0.001);
+
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = false;
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        imu.initialize(parameters);
+
+        telemetry.addData("Mode", "calibrating...");
+        telemetry.update();
+
+        telemetry.addData("Mode", "waiting for start");
+        telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
+        telemetry.update();
+
 //        // Most robots need the motor on one side to be reversed to drive forward
 //        // Reverse the motor that runs backwards when connected directly to the battery
         leftA.setDirection(DcMotor.Direction.FORWARD);
@@ -123,7 +141,7 @@ public class PushBot extends OpMode {
         rightB.setDirection(DcMotor.Direction.REVERSE);
 //
 //        // Tell the driver that initialization is complete.
-//        telemetry.addData("Status", "Initialized");
+//        telemetry.addData("Status", "Initialized")
     }
 
     /*
@@ -156,14 +174,6 @@ public class PushBot extends OpMode {
 
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
-        double drive = -gamepad1.left_stick_y;
-        double turn = gamepad1.left_stick_x;
-        telemetry.addData("Joystick", "Drive: " + drive + " Turn: " + turn);
-
-        turn /= 2;
-
-        leftPower = Range.clip(drive + turn, -1.0, 1.0);
-        rightPower = Range.clip(drive - turn, -1.0, 1.0);
 
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
@@ -172,26 +182,60 @@ public class PushBot extends OpMode {
 
         // Send calculated power to wheels
 
+
+//        PID drive:
+
+//      double power = goodPID.distance(leftB.getCurrentPosition(), TICK_PER_METER, 0.002);
+//
+//        telemetry.addData("Encoder", power + " " + leftB.getCurrentPosition() + "/" + TICK_PER_METER);
+//
+//        leftA.setPower(power);
+//        leftB.setPower(power);
+//        rightA.setPower(power);
+//        rightB.setPower(power);
+//
+
+
+//       PID angle:
+
+        double fix = goodPID.angle(lastAngles.firstAngle,0 , 3);
+
+        double drive = 0;
+        double turn = -fix;
+        telemetry.addData("Joystick", "Drive: " + drive + " Turn: " + turn);
+
+        turn /= 2;
+
+        leftPower = Range.clip(drive + turn, -1.0, 1.0);
+        rightPower = Range.clip(drive - turn, -1.0, 1.0);
+
         leftPower /= 2;
         rightPower /= 2;
 
-//        Controller:
         leftA.setPower(leftPower);
         leftB.setPower(leftPower);
         rightA.setPower(rightPower);
         rightB.setPower(rightPower);
 
-//        PID:
-//      double power = leftPID.distance(leftB.getCurrentPosition(), TICK_PER_METER, 0.002);
-//
-//        telemetry.addData("Encoder", power + " " + leftB.getCurrentPosition() + "/" + TICK_PER_METER);
-//
-        leftA.setPower(power);
-        leftB.setPower(power);
-        rightA.setPower(power);
-        rightB.setPower(power);
+        telemetry.addData("Degrees", lastAngles.firstAngle);
+        telemetry.addData("fix", fix);
+//        telemetry.addData("Counter degrees", globalAngle);
 
-        testServo.setPosition(gamepad1.right_stick_y >= 0.0 ? gamepad1.right_stick_y : 0);
+        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
+
+//        if (deltaAngle < -180)
+//            deltaAngle += 360;
+//        else if (deltaAngle > 180)
+//            deltaAngle -= 360;
+        deltaAngle = (deltaAngle+180)%360 - 180;
+
+        globalAngle += deltaAngle;
+
+        lastAngles = angles;
 
         // Show the elapsed game time and wheel power.
 //        telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -208,3 +252,5 @@ public class PushBot extends OpMode {
     }
 
 }
+
+

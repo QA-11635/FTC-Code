@@ -14,8 +14,20 @@ public class PID {
         this.kD = kD;
     }
 
-    public double calculate(double current, double setpoint, double tolerance) {
-        double error = (setpoint - current) / setpoint;
+    public double distance(double current, double setPoint, double tolerance) {
+        double error = (setPoint - current) / setPoint;
+        if (Math.abs(error) > tolerance) {
+            derivative = (error - lastError) / DT;
+            integral += error * DT;
+            lastError = error;
+            return kP * (error) + kI * (integral) + kD * (derivative);
+        } else {
+            return 0;
+        }
+    }
+
+    public double angle(double current, double setPoint, double tolerance) {
+        double error = (setPoint - current);
         if (Math.abs(error) > tolerance) {
             derivative = (error - lastError) / DT;
             integral += error * DT;
