@@ -91,7 +91,8 @@ public class AutoPush extends OpMode {
     private DcMotor rightB = null;
     private Servo testServo = null;
 
-    private PID goodPID;
+    private PID turnPID;
+    private PID drivePID;
 
 
     private BNO055IMU               imu;
@@ -112,8 +113,12 @@ public class AutoPush extends OpMode {
 
         testServo = hardwareMap.get(Servo.class, "test_servo");
 
-        goodPID = new PID(0.067, 0, 0.001);
+        turnPID = new PID(0.067, 0, 0.001);
 //        goodPID = new PID(0.067, 0, 0.001);
+
+        drivePID = new PID(1, 0.2, 0.05);
+//        goodPID = new PID(0.067, 0, 0.001);
+
 
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -183,9 +188,9 @@ public class AutoPush extends OpMode {
         // Send calculated power to wheels
 
 
-//        PID drive:
-
-//      double power = goodPID.distance(leftB.getCurrentPosition(), TICK_PER_METER, 0.002);
+/////////        PID drive:
+//
+//      double power = drivePID.distance(leftB.getCurrentPosition(), TICK_PER_METER, 0.002);
 //
 //        telemetry.addData("Encoder", power + " " + leftB.getCurrentPosition() + "/" + TICK_PER_METER);
 //
@@ -193,12 +198,12 @@ public class AutoPush extends OpMode {
 //        leftB.setPower(power);
 //        rightA.setPower(power);
 //        rightB.setPower(power);
-//
+//////
 
 
-//       PID angle:
+//////////       PID angle:
 
-        double fix = goodPID.angle(lastAngles.firstAngle,0 , 3);
+        double fix = turnPID.angle(lastAngles.firstAngle,0 , 2);
 
         double drive = 0;
         double turn = -fix;
@@ -219,7 +224,7 @@ public class AutoPush extends OpMode {
 
         telemetry.addData("Degrees", lastAngles.firstAngle);
         telemetry.addData("fix", fix);
-//        telemetry.addData("Counter degrees", globalAngle);
+        telemetry.addData("Counter degrees", globalAngle);
 
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -227,17 +232,15 @@ public class AutoPush extends OpMode {
 
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
 
-//        if (deltaAngle < -180)
-//            deltaAngle += 360;
-//        else if (deltaAngle > 180)
-//            deltaAngle -= 360;
         deltaAngle = (deltaAngle+180)%360 - 180;
 
         globalAngle += deltaAngle;
 
         lastAngles = angles;
+/////
 
-        // Show the elapsed game time and wheel power.
+
+//         Show the elapsed game time and wheel power.
 //        telemetry.addData("Status", "Run Time: " + runtime.toString());
 //        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
 
