@@ -117,7 +117,7 @@ public class AutoPush extends OpMode {
 //        goodPID = new PID(0.067, 0, 0.001);
 
         drivePID = new PID(1, 0.2, 0.05);
-//        goodPID = new PID(0.067, 0, 0.001);
+//        goodPID = new PID(1, 0.2, 0.05);
 
 
 
