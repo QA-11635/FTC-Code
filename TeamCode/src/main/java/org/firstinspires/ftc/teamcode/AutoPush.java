@@ -85,9 +85,9 @@ public class AutoPush extends OpMode {
     private static final double TICK_PER_METER = (1 / WHEEL_CIRCUMFERENCE) * TICK_PER_REVOLUTION;
 
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftA = null;
+    private DcMotor leftF = null;
     private DcMotor leftB = null;
-    private DcMotor rightA = null;
+    private DcMotor rightF = null;
     private DcMotor rightB = null;
     private Servo testServo = null;
 
@@ -101,14 +101,55 @@ public class AutoPush extends OpMode {
     /*s
      * Code to run ONCE when the driver hits INIT
      */
+    private void driveForTurn(DcMotor LF, DcMotor LB, DcMotor RF, DcMotor RB, double v, double w){
+        double leftPower = Range.clip(v + w, -1.0, 1.0);
+        double rightPower = Range.clip(v - w, -1.0, 1.0);
+
+        leftPower /= 2;
+        rightPower /= 2;
+
+        LF.setPower(leftPower);
+        LB.setPower(leftPower);
+        RF.setPower(rightPower);
+        RB.setPower(rightPower);
+    }
+    private void turn_PID(double setPoint){
+        double fix = turnPID.angle(lastAngles.firstAngle, setPoint, 2);
+
+        double drive = 0;
+        double turn = -fix;
+        telemetry.addData("Joystick", "Drive: " + drive + " Turn: " + turn);
+
+        turn /= 2;
+
+        driveForTurn(leftF, leftB, rightF, rightB, drive, turn);
+
+
+        telemetry.addData("Degrees", lastAngles.firstAngle);
+        telemetry.addData("fix", fix);
+        telemetry.addData("Counter degrees", globalAngle);
+
+        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
+
+        deltaAngle = (deltaAngle + 180) % 360 - 180;
+
+        globalAngle += deltaAngle;
+
+        lastAngles = angles;
+/////
+    }
     @Override
     public void init() {
         telemetry.addData("Status", "Quack Attack!!!");
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftA = hardwareMap.get(DcMotor.class, "leftA");
+        leftF = hardwareMap.get(DcMotor.class, "leftA");
         leftB = hardwareMap.get(DcMotor.class, "leftB");
-        rightA = hardwareMap.get(DcMotor.class, "rightA");
+        rightF = hardwareMap.get(DcMotor.class, "rightA");
         rightB = hardwareMap.get(DcMotor.class, "rightB");
 
         testServo = hardwareMap.get(Servo.class, "test_servo");
@@ -140,11 +181,12 @@ public class AutoPush extends OpMode {
 
 //        // Most robots need the motor on one side to be reversed to drive forward
 //        // Reverse the motor that runs backwards when connected directly to the battery
-        leftA.setDirection(DcMotor.Direction.FORWARD);
+        leftF.setDirection(DcMotor.Direction.FORWARD);
         leftB.setDirection(DcMotor.Direction.FORWARD);
-        rightA.setDirection(DcMotor.Direction.REVERSE);
+        rightF.setDirection(DcMotor.Direction.REVERSE);
         rightB.setDirection(DcMotor.Direction.REVERSE);
-//
+
+
 //        // Tell the driver that initialization is complete.
 //        telemetry.addData("Status", "Initialized")
     }
@@ -174,6 +216,11 @@ public class AutoPush extends OpMode {
         double leftPower;
         double rightPower;
 
+        turn_PID(90);
+
+
+
+
         // Choose to drive using either Tank Mode, or POV Mode
         // Comment out the method that's not used.  The default below is POV.
 
@@ -194,51 +241,14 @@ public class AutoPush extends OpMode {
 //
 //        telemetry.addData("Encoder", power + " " + leftB.getCurrentPosition() + "/" + TICK_PER_METER);
 //
-//        leftA.setPower(power);
+//        leftF.setPower(power);
 //        leftB.setPower(power);
-//        rightA.setPower(power);
+//        rightF.setPower(power);
 //        rightB.setPower(power);
 //////
 
 
 //////////       PID angle:
-
-        double fix = turnPID.angle(lastAngles.firstAngle,0 , 2);
-
-        double drive = 0;
-        double turn = -fix;
-        telemetry.addData("Joystick", "Drive: " + drive + " Turn: " + turn);
-
-        turn /= 2;
-
-        leftPower = Range.clip(drive + turn, -1.0, 1.0);
-        rightPower = Range.clip(drive - turn, -1.0, 1.0);
-
-        leftPower /= 2;
-        rightPower /= 2;
-
-        leftA.setPower(leftPower);
-        leftB.setPower(leftPower);
-        rightA.setPower(rightPower);
-        rightB.setPower(rightPower);
-
-        telemetry.addData("Degrees", lastAngles.firstAngle);
-        telemetry.addData("fix", fix);
-        telemetry.addData("Counter degrees", globalAngle);
-
-        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
-
-        deltaAngle = (deltaAngle+180)%360 - 180;
-
-        globalAngle += deltaAngle;
-
-        lastAngles = angles;
-/////
-
 
 //         Show the elapsed game time and wheel power.
 //        telemetry.addData("Status", "Run Time: " + runtime.toString());
