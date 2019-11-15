@@ -15,7 +15,7 @@ public class PID {
     }
 
     public double distance(double current, double setPoint, double tolerance) {
-        double error = (setPoint - current) / setPoint;
+        double error = (setPoint - current);
         if (Math.abs(error) > tolerance) {
             derivative = (error - lastError) / DT;
             integral += error * DT;

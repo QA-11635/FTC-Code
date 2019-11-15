@@ -50,7 +50,7 @@ public class Robot {
 
         turnPID = new PID(0.067, 0, 0.001);
 //        goodPID = new PID(0.067, 0, 0.001);
-        drivePID = new PID(1, 0.2, 0.05);
+        drivePID = new PID(10, 0, 0);
 //        goodPID = new PID(1, 0.2, 0.05);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

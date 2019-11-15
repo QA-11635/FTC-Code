@@ -83,7 +83,6 @@ public class AutoPush extends OpMode {
     private static final double WHEEL_RADIUS = 0.05;
     private static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
     private static final double TICK_PER_METER = (1 / WHEEL_CIRCUMFERENCE) * TICK_PER_REVOLUTION;
-
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftF = null;
     private DcMotor leftB = null;

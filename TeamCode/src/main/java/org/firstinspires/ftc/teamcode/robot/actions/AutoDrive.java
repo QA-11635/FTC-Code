@@ -22,8 +22,8 @@ public class AutoDrive implements Action {
 
     @Override
     public boolean loop() {
-        double power = robot.getDrivePID().distance(robot.getLeftB().getCurrentPosition(), initial + Robot.TICK_PER_METER * setPointMeters, 0.002);
+        double power = robot.getDrivePID().distance(robot.getLeftB().getCurrentPosition(), initial + Robot.TICK_PER_METER * setPointMeters, 1);
         robot.drive(power, 0);
-        return Math.abs(power) < 0.05;
+        return Math.abs(power) == 0;
     }
 }
