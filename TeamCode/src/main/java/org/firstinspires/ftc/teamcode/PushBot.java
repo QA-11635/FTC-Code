@@ -181,15 +181,6 @@ public class PushBot extends OpMode {
         rightA.setPower(rightPower);
         rightB.setPower(rightPower);
 
-//        PID:
-//      double power = leftPID.distance(leftB.getCurrentPosition(), TICK_PER_METER, 0.002);
-//
-//        telemetry.addData("Encoder", power + " " + leftB.getCurrentPosition() + "/" + TICK_PER_METER);
-//
-//        leftA.setPower(power);
-//        leftB.setPower(power);
-//        rightA.setPower(power);
-//        rightB.setPower(power);
 //
 //        testServo.setPosition(gamepad1.right_stick_y >= 0.0 ? gamepad1.right_stick_y : 0);
 
