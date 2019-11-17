@@ -110,5 +110,3 @@ public class AutoPush2 extends OpMode {
     }
 
 }
-
-
