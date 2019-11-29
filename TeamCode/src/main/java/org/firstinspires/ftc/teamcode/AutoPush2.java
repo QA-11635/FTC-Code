@@ -4,7 +4,7 @@
  * are permitted (subject to the limitations in the disclaimer below) provided that
  * the following conditions are met:
  *
- * Redistributions of source code must retain the above copyright notice, this list
+ * Redistributions of source code must etain the above copyright notice, this list
  * of conditions and the following disclaimer.
  *
  * Redistributions in binary form must reproduce the above copyright notice, this
@@ -43,6 +43,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.autonomous.Action;
 import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoDetect;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoDrive;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoTurn;
 
@@ -73,9 +74,8 @@ public class AutoPush2 extends OpMode {
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
         robot.runAutonomous(new Action[]{
-                new AutoTurn(90),
-                new AutoDrive(1),
-                new AutoTurn(0)
+                new AutoDetect(),
+                new AutoTurn(90)
         });
     }
 

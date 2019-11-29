@@ -10,6 +10,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.teamcode.autonomous.Action;
 import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.opencv.core.Rect;
+
+import java.util.List;
 
 public class AutoDetect implements Action {
 
@@ -22,20 +25,10 @@ public class AutoDetect implements Action {
 
     @Override
     public boolean loop() {
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(robot.getTemplate());
-        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) robot.getTemplate().getListener()).getPose();
-            if (pose != null) {
-                VectorF trans = pose.getTranslation();
-                Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-                double tX = trans.get(0);
-                double tY = trans.get(1);
-                double tZ = trans.get(2);
-                double rX = rot.firstAngle;
-                double rY = rot.secondAngle;
-                double rZ = rot.thirdAngle;
-                return true;
-            }
+        List<Rect> things = robot.getDetector().foundRectangles();
+        for (Rect rect: things){
+            robot.print("Width", rect.x);
+            return true;
         }
         return false;
     }

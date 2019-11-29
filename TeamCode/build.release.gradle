@@ -1,5 +1,6 @@
 dependencies {
     implementation project(':FtcRobotController')
+    implementation ('com.github.dogecv:dogecv:2020.4-alpha')
     implementation (name: 'RobotCore-release', ext: 'aar')
     implementation (name: 'Hardware-release', ext: 'aar')
     implementation (name: 'FtcCommon-release', ext: 'aar')
