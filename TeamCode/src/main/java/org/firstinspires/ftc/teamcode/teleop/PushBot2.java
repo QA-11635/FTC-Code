@@ -176,7 +176,6 @@ public class PushBot2 extends OpMode {
 //        telemetry.addData("Status", "Run Time: " + runtime.toString());
 //        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
 
-
     }
 
     /*

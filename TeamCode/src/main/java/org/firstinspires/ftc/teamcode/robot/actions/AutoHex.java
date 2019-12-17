@@ -3,26 +3,26 @@ package org.firstinspires.ftc.teamcode.robot.actions;
 import org.firstinspires.ftc.teamcode.autonomous.Action;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
-public class AutoDrive implements Action {
+public class AutoHex implements Action {
 
     private Robot robot;
     private double initial = 0;
 
-    private double setPointMeters;
+    private double armDegrees;
 
-    public AutoDrive(double meters) {
-        this.setPointMeters = meters;
+    public AutoHex(double degrees) {
+        this.armDegrees = degrees;
     }
 
     @Override
     public void setup(Robot robot) {
         this.robot = robot;
-        this.initial = robot.getLeftB().getCurrentPosition();
+        this.initial = robot.getHexMotor().getCurrentPosition();
     }
 
     @Override
     public boolean loop() {
-        double power = robot.getDrivePID().distance(robot.getLeftB().getCurrentPosition(), initial + Robot.TICK_PER_METER_DRIVE * setPointMeters, 1);
+        double power = robot.getDrivePID().distance(robot.getHexMotor().getCurrentPosition(), initial + Robot.DEGREES_PER_HEX * armDegrees, 1);
         robot.drive(power, 0);
         return Math.abs(power) == 0;
     }

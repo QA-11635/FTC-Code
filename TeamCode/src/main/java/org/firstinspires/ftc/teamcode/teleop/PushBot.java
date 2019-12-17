@@ -170,7 +170,12 @@ public class PushBot extends OpMode {
         rightB.setPower(rightPower);
 
 //
-//        testServo.setPosition(gamepad1.right_stick_y >= 0.0 ? gamepad1.right_stick_y : 0);
+        if (gamepad2.x) {
+            testServo.setPosition(0.4);
+        } else if (gamepad2.y) {
+            testServo.setPosition(0);
+        }
+
 
         // Show the elapsed game time and wheel power.
 //        telemetry.addData("Status", "Run Time: " + runtime.toString());

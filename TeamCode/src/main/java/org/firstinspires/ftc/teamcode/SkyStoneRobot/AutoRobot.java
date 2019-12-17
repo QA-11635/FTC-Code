@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.SkyStoneRobot;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -35,8 +35,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.autonomous.Action;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoCollect;
-import org.firstinspires.ftc.teamcode.robot.actions.AutoDrive;
-import org.firstinspires.ftc.teamcode.robot.actions.AutoTurn;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoFoundation;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoGrab;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoHex;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoLazySusan;
 
 
 /**
@@ -55,8 +57,8 @@ import org.firstinspires.ftc.teamcode.robot.actions.AutoTurn;
 // Initialize the hardware variables. Note that the strings used here as parameters
 
 
-@Autonomous(name = "AutoPush2", group = "Autonomous")
-public class AutoPush2 extends OpMode {
+@Autonomous(name = "AutoRobot", group = "Autonomous")
+public class AutoRobot extends OpMode {
     // Declare OpMode members.
 
     private Robot robot;
@@ -66,7 +68,12 @@ public class AutoPush2 extends OpMode {
         robot = new Robot(hardwareMap, telemetry);
         robot.runAutonomous(new Action[]{
                 new AutoCollect(true),
-                new AutoCollect(false)
+                new AutoFoundation(true),
+                new AutoGrab(true),
+                new AutoFoundation(false),
+                new AutoLazySusan(true),
+                new AutoHex(90)
+
         });
     }
 
