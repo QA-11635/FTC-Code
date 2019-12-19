@@ -35,10 +35,13 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.autonomous.Action;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoCollect;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoDrive;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoFoundation;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoGrab;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoHex;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoLazySusan;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoLift;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoLine;
 
 
 /**
@@ -67,12 +70,10 @@ public class AutoRobot extends OpMode {
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
         robot.runAutonomous(new Action[]{
-                new AutoCollect(true),
-                new AutoFoundation(true),
-                new AutoGrab(true),
-                new AutoFoundation(false),
-                new AutoLazySusan(true),
-                new AutoHex(90)
+                new AutoLine(false),
+                new AutoDrive(1),
+                new AutoLine(true)
+
 
         });
     }

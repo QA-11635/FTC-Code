@@ -21,11 +21,6 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 @TeleOp(name = "RobotTeleOp", group = "Iterative Opmode")
 public class RobotTeleOp extends OpMode {
 
-    private static final int TICK_PER_REVOLUTION = 537;
-    private static final double WHEEL_RADIUS = 0.05;
-    private static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
-    private static final double TICK_PER_METER = (1 / WHEEL_CIRCUMFERENCE) * TICK_PER_REVOLUTION;
-
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftA = null;
     private DcMotor leftB = null;
@@ -62,7 +57,9 @@ public class RobotTeleOp extends OpMode {
 
         servoFoundationL = hardwareMap.get(Servo.class, " Left foundation Servo");
         servoFoundationR = hardwareMap.get(Servo.class, " Right foundation Servo");
+
         lazySusan = hardwareMap.get(Servo.class, "lazy Susan");
+        grabServo = hardwareMap.get(Servo.class, "grab servo");
 
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
         hexMotor = hardwareMap.get(DcMotor.class, "hexMotor");
@@ -125,14 +122,13 @@ public class RobotTeleOp extends OpMode {
         leftPower = Range.clip(drive + turn, -1.0, 1.0);
         rightPower = Range.clip(drive - turn, -1.0, 1.0);
 
+        leftPower /= 2;
+        rightPower /= 2;
 
         double lift = -gamepad2.left_stick_y;
         double hex = gamepad2.right_stick_x;
         liftPower = Range.clip(lift + 0, -1.0, 1.0);
         hexPower = Range.clip(hex + 0, -1.0, 1.0);
-
-        leftPower /= 2;
-        rightPower /= 2;
 
         liftPower /= 4;
         hexPower /= 2;

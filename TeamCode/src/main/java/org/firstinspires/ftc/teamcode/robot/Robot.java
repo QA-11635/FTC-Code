@@ -35,6 +35,8 @@ import org.opencv.core.Rect;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+
 
 public class Robot {
     private static final int TICK_PER_REVOLUTION = 537;
@@ -67,6 +69,8 @@ public class Robot {
     private DcMotor collectL = null;
     private DcMotor collectR = null;
 
+    private ColorSensor colorSensor = null;
+
     private PID turnPID;
     private PID drivePID;
 
@@ -98,13 +102,17 @@ public class Robot {
 
         servoFoundationL = hardwareMap.get(Servo.class, " Left foundation Servo");
         servoFoundationR = hardwareMap.get(Servo.class, " Right foundation Servo");
+
         lazySusan = hardwareMap.get(Servo.class, "lazy Susan");
+        grabServo = hardwareMap.get(Servo.class, "grab Servo");
 
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
         hexMotor = hardwareMap.get(DcMotor.class, "hexMotor");
 
         collectL = hardwareMap.get(DcMotor.class, "leftCollect");
         collectR = hardwareMap.get(DcMotor.class, "RightCollect");
+
+        colorSensor = hardwareMap.get(ColorSensor.class,"color sensor");
 
 
         turnPID = new PID(0.067, 0, 0.001);
@@ -275,6 +283,10 @@ public class Robot {
         return lazySusan;
     }
 
+    public ColorSensor getColorSensor(){
+        return colorSensor;
+    }
+
     public VuforiaTrackables getTrackables() {
         return trackables;
     }
@@ -291,3 +303,4 @@ public class Robot {
         return hardwareMap;
     }
 }
+
