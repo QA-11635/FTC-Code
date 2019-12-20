@@ -22,6 +22,13 @@ public class AutoCollect implements Action {
         if (open = true){
             robot.getCollectL().setPower(1);
             robot.getCollectR().setPower(1);
+            if (robot.getTouchSensorC().isPressed()){
+                robot.getCollectL().setPower(0);
+                robot.getCollectR().setPower(0);
+            }else {
+                robot.getCollectL().setPower(1);
+                robot.getCollectR().setPower(1);
+            }
         }else if (open = false) {
             robot.getCollectL().setPower(0);
             robot.getCollectR().setPower(0);

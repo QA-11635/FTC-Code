@@ -70,6 +70,7 @@ public class Robot {
     private DcMotor collectR = null;
 
     private ColorSensor colorSensor = null;
+    private TouchSensor touchSensorC = null;
 
     private PID turnPID;
     private PID drivePID;
@@ -112,7 +113,8 @@ public class Robot {
         collectL = hardwareMap.get(DcMotor.class, "leftCollect");
         collectR = hardwareMap.get(DcMotor.class, "RightCollect");
 
-        colorSensor = hardwareMap.get(ColorSensor.class,"color sensor");
+        colorSensor = hardwareMap.get(ColorSensor.class,"Color sensor");
+        touchSensorC = hardwareMap.get(TouchSensor.class, "Touch sensor collect");
 
 
         turnPID = new PID(0.067, 0, 0.001);
@@ -283,8 +285,12 @@ public class Robot {
         return lazySusan;
     }
 
-    public ColorSensor getColorSensor(){
+    public ColorSensor getColorSensor() {
         return colorSensor;
+    }
+
+    public TouchSensor getTouchSensorC(){
+        return touchSensorC;
     }
 
     public VuforiaTrackables getTrackables() {
