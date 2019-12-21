@@ -71,6 +71,10 @@ public class Robot {
 
     private ColorSensor colorSensor = null;
     private TouchSensor touchSensorC = null;
+    private TouchSensor touchSensorLmin = null;
+    private TouchSensor touchSensorLmax = null;
+    private TouchSensor touchSensorHmin = null;
+    private TouchSensor touchSensorHmax = null;
 
     private PID turnPID;
     private PID drivePID;
@@ -101,20 +105,26 @@ public class Robot {
         rightF = hardwareMap.get(DcMotor.class, "rightA");
         rightB = hardwareMap.get(DcMotor.class, "rightB");
 
-        servoFoundationL = hardwareMap.get(Servo.class, " Left foundation Servo");
-        servoFoundationR = hardwareMap.get(Servo.class, " Right foundation Servo");
+        servoFoundationL = hardwareMap.get(Servo.class, " LeftFServo");
+        servoFoundationR = hardwareMap.get(Servo.class, " RightFServo");
 
-        lazySusan = hardwareMap.get(Servo.class, "lazy Susan");
-        grabServo = hardwareMap.get(Servo.class, "grab Servo");
+        lazySusan = hardwareMap.get(Servo.class, "lazySusan");
+        grabServo = hardwareMap.get(Servo.class, "grabServo");
 
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
         hexMotor = hardwareMap.get(DcMotor.class, "hexMotor");
 
         collectL = hardwareMap.get(DcMotor.class, "leftCollect");
-        collectR = hardwareMap.get(DcMotor.class, "RightCollect");
+        collectR = hardwareMap.get(DcMotor.class, "rightCollect");
 
-        colorSensor = hardwareMap.get(ColorSensor.class,"Color sensor");
-        touchSensorC = hardwareMap.get(TouchSensor.class, "Touch sensor collect");
+        colorSensor = hardwareMap.get(ColorSensor.class,"colorSensor");
+        touchSensorC = hardwareMap.get(TouchSensor.class, "touchCollect");
+
+        touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
+        touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
+
+        touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
+        touchSensorHmax = hardwareMap.get(TouchSensor.class, "touchHexMax");
 
 
         turnPID = new PID(0.067, 0, 0.001);
@@ -291,6 +301,22 @@ public class Robot {
 
     public TouchSensor getTouchSensorC(){
         return touchSensorC;
+    }
+
+    public TouchSensor getTouchSensorLmin(){
+        return touchSensorLmin;
+    }
+
+    public TouchSensor getTouchSensorLmax(){
+        return touchSensorLmax;
+    }
+
+    public TouchSensor getTouchSensorHmin(){
+        return touchSensorHmin;
+    }
+
+    public TouchSensor getTouchSensorHmax(){
+        return touchSensorHmax;
     }
 
     public VuforiaTrackables getTrackables() {

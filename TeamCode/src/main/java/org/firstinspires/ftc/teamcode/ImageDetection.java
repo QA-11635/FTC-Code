@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.annotation.SuppressLint;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -23,6 +25,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * is explained below.
  */
 @TeleOp(name = "Image Detection", group = "TeleOp")
+@Disabled
 public class ImageDetection extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
@@ -55,6 +58,7 @@ public class ImageDetection extends LinearOpMode {
      */
     private TFObjectDetector tfod;
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void runOpMode() {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
@@ -75,7 +79,7 @@ public class ImageDetection extends LinearOpMode {
             tfod.activate();
         }
 
-        /** Wait for the game to begin */
+        // Wait for the game to begin
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();

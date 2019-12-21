@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -39,6 +40,12 @@ public class RobotTeleOp extends OpMode {
     private DcMotor collectL = null;
     private DcMotor collectR = null;
 
+    private TouchSensor touchSensorC = null;
+    private TouchSensor touchSensorLmin = null;
+    private TouchSensor touchSensorLmax = null;
+    private TouchSensor touchSensorHmin = null;
+    private TouchSensor touchSensorHmax = null;
+
     private PID leftPID;
     private PID rightPID;
 
@@ -55,17 +62,26 @@ public class RobotTeleOp extends OpMode {
         rightA = hardwareMap.get(DcMotor.class, "rightA");
         rightB = hardwareMap.get(DcMotor.class, "rightB");
 
-        servoFoundationL = hardwareMap.get(Servo.class, " Left foundation Servo");
-        servoFoundationR = hardwareMap.get(Servo.class, " Right foundation Servo");
+        servoFoundationL = hardwareMap.get(Servo.class, " LeftFServo");
+        servoFoundationR = hardwareMap.get(Servo.class, " RightFServo");
 
-        lazySusan = hardwareMap.get(Servo.class, "lazy Susan");
-        grabServo = hardwareMap.get(Servo.class, "grab servo");
+        lazySusan = hardwareMap.get(Servo.class, "lazySusan");
+        grabServo = hardwareMap.get(Servo.class, "grabServo");
 
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
         hexMotor = hardwareMap.get(DcMotor.class, "hexMotor");
 
         collectL = hardwareMap.get(DcMotor.class, "leftCollect");
-        collectR = hardwareMap.get(DcMotor.class, "RightCollect");
+        collectR = hardwareMap.get(DcMotor.class, "rightCollect");
+
+        touchSensorC = hardwareMap.get(TouchSensor.class, "touchCollect");
+
+        touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
+        touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
+
+        touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
+        touchSensorHmax = hardwareMap.get(TouchSensor.class, "touchHexMax");
+
 
         leftPID = new PID(1, 0, 0);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -139,7 +155,7 @@ public class RobotTeleOp extends OpMode {
         rightA.setPower(rightPower);
         rightB.setPower(rightPower);
 
-//       operator controller:
+//       Operator controller:
 
         //elevator
         liftMotor.setPower(liftPower);
@@ -178,8 +194,45 @@ public class RobotTeleOp extends OpMode {
         }
 
 
-        //limit switches
+//       Switches:
 
+        //grabbing the cube automatic
+        if (touchSensorC.isPressed()){
+            liftMotor.setPower(-1);
+            if (touchSensorLmin.isPressed()){
+                liftMotor.setPower(0);
+
+            }
+            hexMotor.setPower(-1);
+            if (touchSensorHmin.isPressed()) {
+                hexMotor.setPower(0);
+            }
+            lazySusan.setPosition(0);
+            grabServo.setPosition(0);
+            grabServo.setPosition(0.4);
+        }
+
+        //turning off collection
+        if (touchSensorC.isPressed()){
+            collectL.setPower(0);
+            collectR.setPower(0);
+        }
+
+        //turning off lift
+        if (touchSensorLmin.isPressed()){
+            liftMotor.setPower(0);
+        }
+        if (touchSensorLmax.isPressed()){
+            liftMotor.setPower(0);
+        }
+
+        //turning off hex
+        if (touchSensorHmin.isPressed()){
+            hexMotor.setPower(0);
+        }
+        if (touchSensorHmax.isPressed()){
+            hexMotor.setPower(0);
+        }
     }
 
     @Override

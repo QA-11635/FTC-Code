@@ -43,6 +43,7 @@ import org.firstinspires.ftc.teamcode.robot.actions.AutoDrive;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoLazySusan;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoLift;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoLine;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoLift;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoTurn;
 
 
@@ -72,8 +73,8 @@ public class AutoRobot extends OpMode {
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
         robot.runAutonomous(new Action[]{
-                (Action) new AutoDetect(),
-                new AutoTurn(90)
+                new AutoTurn(90),
+                new AutoLift(0.12)
         });
     }
 

@@ -22,6 +22,13 @@ public class AutoHex implements Action {
 
     @Override
     public boolean loop() {
+        if (robot.getTouchSensorLmin().isPressed()){
+            robot.getLiftMotor().setPower(0);
+        }
+        if (robot.getTouchSensorLmax().isPressed()){
+            robot.getLiftMotor().setPower(0);
+        }
+
         double power = robot.getDrivePID().distance(robot.getHexMotor().getCurrentPosition(), initial + Robot.DEGREES_PER_HEX * armDegrees, 1);
         robot.drive(power, 0);
         return Math.abs(power) == 0;
