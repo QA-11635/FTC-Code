@@ -69,7 +69,8 @@ public class Robot {
     private DcMotor collectL = null;
     private DcMotor collectR = null;
 
-    private ColorSensor colorSensor = null;
+    private ColorSensor colorSensorL = null;
+    private ColorSensor colorSensorS = null;
     private TouchSensor touchSensorC = null;
     private TouchSensor touchSensorLmin = null;
     private TouchSensor touchSensorLmax = null;
@@ -117,7 +118,8 @@ public class Robot {
         collectL = hardwareMap.get(DcMotor.class, "leftCollect");
         collectR = hardwareMap.get(DcMotor.class, "rightCollect");
 
-        colorSensor = hardwareMap.get(ColorSensor.class,"colorSensor");
+        colorSensorL = hardwareMap.get(ColorSensor.class,"colorSensorLine");
+        colorSensorS = hardwareMap.get(ColorSensor.class,"colorSensorStone");
         touchSensorC = hardwareMap.get(TouchSensor.class, "touchCollect");
 
         touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
@@ -295,8 +297,12 @@ public class Robot {
         return lazySusan;
     }
 
-    public ColorSensor getColorSensor() {
-        return colorSensor;
+    public ColorSensor getColorSensorL() {
+        return colorSensorL;
+    }
+
+    public ColorSensor getColorSensorS() {
+        return colorSensorS;
     }
 
     public TouchSensor getTouchSensorC(){

@@ -20,12 +20,12 @@ public class AutoLine implements Action {
     @Override
     public boolean loop() {
         if (work = true){
-            while (robot.getColorSensor().alpha() <= 3){
+            while (robot.getColorSensorL().alpha() <= 9){
                 new AutoDrive(0);
             }
         }else {
-            return work;
+            return robot.getColorSensorL().alpha() <= 9;
         }
-        return work;
+        return robot.getColorSensorL().alpha() >= 9;
     }
 }

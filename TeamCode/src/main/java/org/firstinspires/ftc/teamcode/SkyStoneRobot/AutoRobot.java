@@ -35,17 +35,15 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.autonomous.Action;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoCollect;
-import org.firstinspires.ftc.teamcode.robot.actions.AutoDetect;
-import org.firstinspires.ftc.teamcode.robot.actions.AutoDrive;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoFoundation;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoGrab;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoHex;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoLazySusan;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoLift;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoLine;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoDetect;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoLift;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoTurn;
-
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -74,7 +72,8 @@ public class AutoRobot extends OpMode {
         robot = new Robot(hardwareMap, telemetry);
         robot.runAutonomous(new Action[]{
                 new AutoTurn(90),
-                new AutoLift(0.12)
+                new AutoLift(0.12),
+                new AutoDetect(true)
         });
     }
 

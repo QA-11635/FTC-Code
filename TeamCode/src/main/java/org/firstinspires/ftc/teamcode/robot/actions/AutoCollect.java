@@ -33,7 +33,7 @@ public class AutoCollect implements Action {
             robot.getCollectL().setPower(0);
             robot.getCollectR().setPower(0);
         }
-        return open;
+        return robot.getTouchSensorC().isPressed();
     }
 }
 
