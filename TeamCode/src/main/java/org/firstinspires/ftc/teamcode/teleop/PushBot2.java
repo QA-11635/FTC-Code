@@ -109,6 +109,8 @@ public class PushBot2 extends OpMode {
         leftB.setDirection(DcMotor.Direction.FORWARD);
         rightA.setDirection(DcMotor.Direction.REVERSE);
         rightB.setDirection(DcMotor.Direction.REVERSE);
+
+        testServo.setDirection(Servo.Direction.FORWARD);
 //
 //        // Tell the driver that initialization is complete.
 //        telemetry.addData("Status", "Initialized");
@@ -145,7 +147,7 @@ public class PushBot2 extends OpMode {
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
         double drive = -gamepad1.left_stick_y;
-        double turn = gamepad1.left_stick_x;
+        double turn = gamepad1.right_stick_x;
         telemetry.addData("Joystick", "Drive: " + drive + " Turn: " + turn);
 
         turn /= 2;
@@ -169,8 +171,16 @@ public class PushBot2 extends OpMode {
         rightA.setPower(rightPower);
         rightB.setPower(rightPower);
 
-//
+
 //        testServo.setPosition(gamepad1.right_stick_y >= 0.0 ? gamepad1.right_stick_y : 0);
+
+        if (gamepad1.x) {
+            testServo.setPosition(0.35);
+        } else if (gamepad1.y) {
+            testServo.setPosition(0);
+        }
+
+        telemetry.addData("servo position", "position:" + testServo.getPosition());
 
         // Show the elapsed game time and wheel power.
 //        telemetry.addData("Status", "Run Time: " + runtime.toString());

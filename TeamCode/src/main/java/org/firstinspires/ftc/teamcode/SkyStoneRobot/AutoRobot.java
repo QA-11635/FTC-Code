@@ -44,6 +44,8 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoDetect;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoLift;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoTurn;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoDrive;
+
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
