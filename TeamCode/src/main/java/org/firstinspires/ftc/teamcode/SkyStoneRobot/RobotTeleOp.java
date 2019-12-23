@@ -44,7 +44,6 @@ public class RobotTeleOp extends OpMode {
     private TouchSensor touchSensorLmin = null;
     private TouchSensor touchSensorLmax = null;
     private TouchSensor touchSensorHmin = null;
-    private TouchSensor touchSensorHmax = null;
 
     private PID leftPID;
     private PID rightPID;
@@ -80,7 +79,6 @@ public class RobotTeleOp extends OpMode {
         touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
 
         touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
-        touchSensorHmax = hardwareMap.get(TouchSensor.class, "touchHexMax");
 
 
         leftPID = new PID(1, 0, 0);
@@ -228,9 +226,6 @@ public class RobotTeleOp extends OpMode {
 
         //turning off hex
         if (touchSensorHmin.isPressed()){
-            hexMotor.setPower(0);
-        }
-        if (touchSensorHmax.isPressed()){
             hexMotor.setPower(0);
         }
     }
