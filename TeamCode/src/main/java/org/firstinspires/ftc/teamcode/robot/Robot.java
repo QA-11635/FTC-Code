@@ -75,7 +75,6 @@ public class Robot {
     private TouchSensor touchSensorLmin = null;
     private TouchSensor touchSensorLmax = null;
     private TouchSensor touchSensorHmin = null;
-    private TouchSensor touchSensorHmax = null;
 
     private PID turnPID;
     private PID drivePID;
@@ -126,7 +125,6 @@ public class Robot {
         touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
 
         touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
-        touchSensorHmax = hardwareMap.get(TouchSensor.class, "touchHexMax");
 
 
         turnPID = new PID(0.067, 0, 0.001);
@@ -321,9 +319,6 @@ public class Robot {
         return touchSensorHmin;
     }
 
-    public TouchSensor getTouchSensorHmax(){
-        return touchSensorHmax;
-    }
 
     public VuforiaTrackables getTrackables() {
         return trackables;

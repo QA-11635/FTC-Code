@@ -27,9 +27,11 @@ public class AutoLift implements Action {
     public boolean loop() {
         if (robot.getTouchSensorLmin().isPressed()){
             robot.getLiftMotor().setPower(0);
+            new AutoLift(0.02);
         }
         if (robot.getTouchSensorLmax().isPressed()){
             robot.getLiftMotor().setPower(0);
+            new AutoLift(-0.02);
         }
         double power = robot.getDrivePID().distance(robot.getLiftMotor().getCurrentPosition(), initial + Robot.TICK_PER_METER_LIFT * setPointMetersLift, 1);
         robot.drive(power, 0);

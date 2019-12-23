@@ -19,7 +19,7 @@ public class AutoDetect implements Action {
     }
     @Override
     public boolean loop() {
-        if (on = true){
+        if (on){
             while (robot.getColorSensorS().alpha() <= 9){
                 new AutoDrive(0);
             }

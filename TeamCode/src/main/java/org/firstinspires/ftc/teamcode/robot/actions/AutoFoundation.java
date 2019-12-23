@@ -19,10 +19,10 @@ public class AutoFoundation implements Action {
     }
     @Override
     public boolean loop() {
-        if (hold = true){
+        if (hold){
             robot.getServoFoundationL().setPosition(0.35);
             robot.getServoFoundationR().setPosition(0.35);
-        }else if (hold = false) {
+        }else {
             robot.getServoFoundationL().setPosition(0);
             robot.getServoFoundationR().setPosition(0);
         }

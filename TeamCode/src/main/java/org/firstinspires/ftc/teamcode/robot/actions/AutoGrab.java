@@ -19,9 +19,9 @@ public class AutoGrab implements Action {
     }
     @Override
     public boolean loop() {
-        if (take = true){
+        if (take){
             robot.getGrabServo().setPosition(0.4);
-        }else if (take = false) {
+        }else {
             robot.getGrabServo().setPosition(0);
         }
         return take;

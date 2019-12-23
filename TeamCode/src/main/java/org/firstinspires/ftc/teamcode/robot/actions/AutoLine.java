@@ -19,7 +19,7 @@ public class AutoLine implements Action {
     }
     @Override
     public boolean loop() {
-        if (work = true){
+        if (work){
             while (robot.getColorSensorL().alpha() <= 9){
                 new AutoDrive(0);
             }

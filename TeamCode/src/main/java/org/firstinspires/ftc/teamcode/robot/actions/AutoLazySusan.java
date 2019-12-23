@@ -19,9 +19,9 @@ public class AutoLazySusan implements Action {
     }
     @Override
     public boolean loop() {
-        if (spin = true){
+        if (spin){
             robot.getLazySusan().setPosition(0.35);
-        }else if (spin = false) {
+        }else {
             robot.getLazySusan().setPosition(0);
         }
         return spin;

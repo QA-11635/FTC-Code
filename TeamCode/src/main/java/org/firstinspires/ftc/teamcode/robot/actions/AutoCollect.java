@@ -19,7 +19,7 @@ public class AutoCollect implements Action {
     }
     @Override
     public boolean loop() {
-        if (open = true){
+        if (open){
             robot.getCollectL().setPower(1);
             robot.getCollectR().setPower(1);
             if (robot.getTouchSensorC().isPressed()){
@@ -29,7 +29,8 @@ public class AutoCollect implements Action {
                 robot.getCollectL().setPower(1);
                 robot.getCollectR().setPower(1);
             }
-        }else if (open = false) {
+        }
+        else{
             robot.getCollectL().setPower(0);
             robot.getCollectR().setPower(0);
         }
