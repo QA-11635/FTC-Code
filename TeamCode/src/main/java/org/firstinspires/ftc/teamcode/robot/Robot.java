@@ -57,6 +57,8 @@ public class Robot {
     private DcMotor rightF = null;
     private DcMotor rightB = null;
 
+    private Servo cubeServo = null;
+
     private Servo servoFoundationL = null;
     private Servo servoFoundationR = null;
 
@@ -100,10 +102,12 @@ public class Robot {
     public Robot(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
-        leftF = hardwareMap.get(DcMotor.class, "leftA");
+        leftF = hardwareMap.get(DcMotor.class, "leftF");
         leftB = hardwareMap.get(DcMotor.class, "leftB");
-        rightF = hardwareMap.get(DcMotor.class, "rightA");
+        rightF = hardwareMap.get(DcMotor.class, "rightF");
         rightB = hardwareMap.get(DcMotor.class, "rightB");
+
+        cubeServo = hardwareMap.get(Servo.class, "cubeServo");
 
         servoFoundationL = hardwareMap.get(Servo.class, " LeftFServo");
         servoFoundationR = hardwareMap.get(Servo.class, " RightFServo");
@@ -261,6 +265,10 @@ public class Robot {
 
     public DcMotor getRightB() {
         return rightB;
+    }
+
+    public Servo getCubeServo(){
+        return cubeServo;
     }
 
     public DcMotor getCollectL() {
