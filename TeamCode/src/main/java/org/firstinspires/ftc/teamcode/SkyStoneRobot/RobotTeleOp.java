@@ -33,24 +33,17 @@ public class RobotTeleOp extends OpMode {
 
     private Servo lazySusan = null;
     private Servo grabServo = null;
-//
+
     private DcMotor liftMotor = null;
     private DcMotor hexMotor = null;
-//
+
     private DcMotor collectL = null;
     private DcMotor collectR = null;
-//
+
     private TouchSensor touchSensorC = null;
     private TouchSensor touchSensorLmin = null;
     private TouchSensor touchSensorLmax = null;
     private TouchSensor touchSensorHmin = null;
-
-    private PID leftPID;
-    private PID rightPID;
-
-    private BNO055IMU imu;
-    Orientation lastAngles = new Orientation();
-    double globalAngle, power = .30, correction;
 
     @Override
     public void init() {
@@ -66,29 +59,19 @@ public class RobotTeleOp extends OpMode {
 
         lazySusan = hardwareMap.get(Servo.class, "lazySusan");
         grabServo = hardwareMap.get(Servo.class, "grabServo");
-//
+
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
         hexMotor = hardwareMap.get(DcMotor.class, "hexMotor");
-//
+
         collectL = hardwareMap.get(DcMotor.class, "leftCollect");
         collectR = hardwareMap.get(DcMotor.class, "rightCollect");
-//
+
         touchSensorC = hardwareMap.get(TouchSensor.class, "touchCollect");
 
         touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
         touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
 
         touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
-
-
-        leftPID = new PID(1, 0, 0);
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
-
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         leftA.setDirection(DcMotor.Direction.FORWARD);
         leftB.setDirection(DcMotor.Direction.FORWARD);
@@ -97,7 +80,7 @@ public class RobotTeleOp extends OpMode {
 
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
         hexMotor.setDirection(DcMotor.Direction.FORWARD);
-//
+
         collectL.setDirection(DcMotor.Direction.FORWARD);
         collectR.setDirection(DcMotor.Direction.REVERSE );
 
@@ -156,7 +139,7 @@ public class RobotTeleOp extends OpMode {
         //elevator
         liftMotor.setPower(liftPower);
         hexMotor.setPower(hexPower);
-//
+
 //        //foundation servo
         if (gamepad2.dpad_up) {
             servoFoundationL.setPosition(0);
@@ -165,7 +148,7 @@ public class RobotTeleOp extends OpMode {
             servoFoundationL.setPosition(0.5);
             servoFoundationR.setPosition(0.5);
         }
-//
+
 //        //collection
         if (gamepad2.a) {
             collectL.setPower(1);
@@ -177,7 +160,7 @@ public class RobotTeleOp extends OpMode {
             collectL.setPower(-1);
             collectR.setPower(-1);
         }
-//
+
 //        //grip
         if (gamepad2.left_bumper) {
             lazySusan.setPosition(0);
