@@ -40,15 +40,15 @@ public class RobotTeleOp extends OpMode {
     private DcMotor collectL = null;
     private DcMotor collectR = null;
 //
-//    private TouchSensor touchSensorC = null;
-//    private TouchSensor touchSensorLmin = null;
-//    private TouchSensor touchSensorLmax = null;
-//    private TouchSensor touchSensorHmin = null;
+    private TouchSensor touchSensorC = null;
+    private TouchSensor touchSensorLmin = null;
+    private TouchSensor touchSensorLmax = null;
+    private TouchSensor touchSensorHmin = null;
 
     private PID leftPID;
     private PID rightPID;
 
-    BNO055IMU imu;
+    private BNO055IMU imu;
     Orientation lastAngles = new Orientation();
     double globalAngle, power = .30, correction;
 
@@ -73,12 +73,12 @@ public class RobotTeleOp extends OpMode {
         collectL = hardwareMap.get(DcMotor.class, "leftCollect");
         collectR = hardwareMap.get(DcMotor.class, "rightCollect");
 //
-//        touchSensorC = hardwareMap.get(TouchSensor.class, "touchCollect");
-//
-//        touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
-//        touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
-//
-//        touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
+        touchSensorC = hardwareMap.get(TouchSensor.class, "touchCollect");
+
+        touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
+        touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
+
+        touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
 
 
         leftPID = new PID(1, 0, 0);
@@ -193,64 +193,64 @@ public class RobotTeleOp extends OpMode {
         }
 
         //grab triggers
-//        double right_grab = -gamepad2.right_trigger;
-//        double left_grab = gamepad2.left_trigger;
-//
-//        double leftTPower = Range.clip(right_grab + left_grab, -1.0, 1.0);
-//        double rightTPower = Range.clip(right_grab - left_grab, -1.0, 1.0);
+        double right_grab = -gamepad2.right_trigger;
+        double left_grab = gamepad2.left_trigger;
 
-//        grabServo.setPosition(leftTPower);
-//        grabServo.setPosition(rightTPower);
+        double leftTPower = Range.clip(right_grab + left_grab, -1.0, 1.0);
+        double rightTPower = Range.clip(right_grab - left_grab, -1.0, 1.0);
 
-//        if (gamepad2.right_trigger > 0){
-//            grabServo.setPosition(right_grab);
-//        }
-//        if(gamepad2.x){
-//            grabServo.setPosition(0.4);
-//        }
-//        if (gamepad2.left_trigger < 0){
-//            grabServo.setPosition(left_grab);
-//
-//        }
-//        if (gamepad2.y){
-//            grabServo.setPosition(0);
-//        }
+        grabServo.setPosition(leftTPower);
+        grabServo.setPosition(rightTPower);
+
+        if (gamepad2.right_trigger > 0){
+            grabServo.setPosition(right_grab);
+        }
+        if(gamepad2.x){
+            grabServo.setPosition(0.4);
+        }
+        if (gamepad2.left_trigger < 0){
+            grabServo.setPosition(left_grab);
+
+        }
+        if (gamepad2.y){
+            grabServo.setPosition(0);
+        }
 //       Switches:
 
-        //grabbing the cube automatic
-//        if (touchSensorC.isPressed()){
-//            liftMotor.setPower(-1);
-//            if (touchSensorLmin.isPressed()){
-//                liftMotor.setPower(0);
-//
-//            }
-//            hexMotor.setPower(-1);
-//            if (touchSensorHmin.isPressed()) {
-//                hexMotor.setPower(0);
-//            }
-//            lazySusan.setPosition(0);
-//            grabServo.setPosition(0);
-//            grabServo.setPosition(0.4);
-//        }
-//
-//        //turning off collection
-//        if (touchSensorC.isPressed()){
-//            collectL.setPower(0);
-//            collectR.setPower(0);
-//        }
-//
-//        //turning off lift
-//        if (touchSensorLmin.isPressed()){
-//            liftMotor.setPower(0);
-//        }
-//        if (touchSensorLmax.isPressed()){
-//            liftMotor.setPower(0);
-//        }
-//
-//        //turning off hex
-//        if (touchSensorHmin.isPressed()){
-//            hexMotor.setPower(0);
-//        }
+//        grabbing the cube automatic
+        if (touchSensorC.isPressed()){
+            liftMotor.setPower(-1);
+            if (touchSensorLmin.isPressed()){
+                liftMotor.setPower(0);
+
+            }
+            hexMotor.setPower(-1);
+            if (touchSensorHmin.isPressed()) {
+                hexMotor.setPower(0);
+            }
+            lazySusan.setPosition(0);
+            grabServo.setPosition(0);
+            grabServo.setPosition(0.4);
+        }
+
+        //turning off collection
+        if (touchSensorC.isPressed()){
+            collectL.setPower(0);
+            collectR.setPower(0);
+        }
+
+        //turning off lift
+        if (touchSensorLmin.isPressed()){
+            liftMotor.setPower(0);
+        }
+        if (touchSensorLmax.isPressed()){
+            liftMotor.setPower(0);
+        }
+
+        //turning off hex
+        if (touchSensorHmin.isPressed()){
+            hexMotor.setPower(0);
+        }
     }
 
     @Override
