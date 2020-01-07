@@ -57,8 +57,6 @@ public class Robot {
     private DcMotor rightF = null;
     private DcMotor rightB = null;
 
-    private Servo cubeServo = null;
-
     private Servo servoFoundationL = null;
     private Servo servoFoundationR = null;
 
@@ -90,24 +88,13 @@ public class Robot {
     private Telemetry telemetry;
     private HardwareMap hardwareMap;
 
-    private OpenGLMatrix lastLocation = null;
-    private VuforiaLocalizer vuforia;
-    private VuforiaTrackables trackables;
-    private VuforiaTrackable template;
-
-    private StoneDetector detector;
-
-    private OpenCvCamera phoneCam;
-
     public Robot(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
-        leftF = hardwareMap.get(DcMotor.class, "leftF");
+        leftF = hardwareMap.get(DcMotor.class, "leftA");
         leftB = hardwareMap.get(DcMotor.class, "leftB");
-        rightF = hardwareMap.get(DcMotor.class, "rightF");
+        rightF = hardwareMap.get(DcMotor.class, "rightA");
         rightB = hardwareMap.get(DcMotor.class, "rightB");
-
-        cubeServo = hardwareMap.get(Servo.class, "cubeServo");
 
         servoFoundationL = hardwareMap.get(Servo.class, " LeftFServo");
         servoFoundationR = hardwareMap.get(Servo.class, " RightFServo");
@@ -123,6 +110,7 @@ public class Robot {
 
         colorSensorL = hardwareMap.get(ColorSensor.class,"colorSensorLine");
         colorSensorS = hardwareMap.get(ColorSensor.class,"colorSensorStone");
+
         touchSensorC = hardwareMap.get(TouchSensor.class, "touchCollect");
 
         touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
@@ -187,14 +175,6 @@ public class Robot {
         lazySusan.setDirection(Servo.Direction.FORWARD);
         grabServo.setDirection(Servo.Direction.FORWARD);
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-        parameters.vuforiaLicenseKey = "AeNJe/D/////AAABma3zpeBqhUccl7pXtQuCkBhDy8UlUV9/L3rf6F5bdEBfUEunLrchGEFvQcZtw0IdjOgQR4Tjq47JbgzYMX0s9Nt9a/V3eWDZ3KdpEHP4+MBjy+3f96l1z89VIL8UCbfaC1vgnwb5TRrWESErL2KHLJ0sz24w4iSKjKd+gHsAcQbzhOIBeiNeGxR6/M/E8aUyeoQ1AdnyOQLwsbMEnPrJXkLsY+2+jV0Xj1xqWTC2jPMN13ryFqBk/dkq0z/sEgD0DO3ldBObc3ay36a9nEbtvaVN1pPX2YwKVQLHkjsK/Ymgb7RSK5bI1hpIWOu4swFUVOlrkA7cqUEWDdM4U48lXejr1YMwAj9FnZzz/xjxnata";
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-        trackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        template = trackables.get(0);
-
 
     }
 
@@ -234,8 +214,8 @@ public class Robot {
         double leftPower = Range.clip(drive + turn, -1.0, 1.0);
         double rightPower = Range.clip(drive - turn, -1.0, 1.0);
 
-        leftPower /= 2;
-        rightPower /= 2;
+        leftPower /= 3;
+        rightPower /= 3;
 
         leftF.setPower(leftPower);
         leftB.setPower(leftPower);
@@ -267,9 +247,6 @@ public class Robot {
         return rightB;
     }
 
-    public Servo getCubeServo(){
-        return cubeServo;
-    }
 
     public DcMotor getCollectL() {
         return collectL;
@@ -325,19 +302,6 @@ public class Robot {
 
     public TouchSensor getTouchSensorHmin(){
         return touchSensorHmin;
-    }
-
-
-    public VuforiaTrackables getTrackables() {
-        return trackables;
-    }
-
-    public VuforiaTrackable getTemplate() {
-        return template;
-    }
-
-    public StoneDetector getDetector() {
-        return detector;
     }
 
     public HardwareMap getHardwareMap() {

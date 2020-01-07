@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -56,6 +57,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
  */
 
 @TeleOp(name = "PushBot Misgav", group = "Iterative Opmode")
+@Disabled
 public class PushBotMisgav extends OpMode {
     // Declare OpMode members.
 
@@ -162,8 +164,8 @@ public class PushBotMisgav extends OpMode {
 
         // Send calculated power to wheels
 
-//        leftPower /= 2;
-//        rightPower /= 2;
+        leftPower /= 2;
+        rightPower /= 2;
 
 //        Controller:
         leftF.setPower(leftPower);
@@ -174,15 +176,15 @@ public class PushBotMisgav extends OpMode {
 
 //        testServo.setPosition(gamepad1.right_stick_y >= 0.0 ? gamepad1.right_stick_y : 0);
 
-        if (gamepad1.x) {
+        if (gamepad2.x) {
             cubeServo.setPosition(0.4);
-        } else if (gamepad1.y) {
+        } else if (gamepad2.y) {
             cubeServo.setPosition(0.8);
         }
 
         telemetry.addData("servo position", "position:" + cubeServo.getPosition());
 
-        // Show the elapsed game time and wheel power.
+//         Show the elapsed game time and wheel power.
 //        telemetry.addData("Status", "Run Time: " + runtime.toString());
 //        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
 

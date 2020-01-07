@@ -46,6 +46,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.PID;
+
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -76,6 +79,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 
 @Autonomous(name = "AutoPush", group = "Autonomous")
+@Disabled
 public class AutoPush extends OpMode {
     // Declare OpMode members.
 
@@ -89,7 +93,6 @@ public class AutoPush extends OpMode {
     private DcMotor leftB = null;
     private DcMotor rightF = null;
     private DcMotor rightB = null;
-    private Servo testServo = null;
 
     private PID turnPID;
     private PID drivePID;
@@ -142,17 +145,74 @@ public class AutoPush extends OpMode {
         lastAngles = angles;
 /////
     }
+
+    private void drive_PID(double meters){
+        double power = drivePID.distance(leftB.getCurrentPosition(), TICK_PER_METER * meters, 0.002);
+
+        telemetry.addData("Encoder", power + " " + leftB.getCurrentPosition() + "/" + TICK_PER_METER * meters);
+        telemetry.addData("encoder", leftB.getCurrentPosition());
+        telemetry.addData("ticks", TICK_PER_METER * meters);
+        telemetry.addData("power", power);
+
+        leftF.setPower(power);
+        leftB.setPower(power);
+        rightF.setPower(power);
+        rightB.setPower(power);
+
+
+    }
+
+
+//    private void TurnForDrive(DcMotor LF, DcMotor LB, DcMotor RF, DcMotor RB, double v, double w){
+//        double leftPower = Range.clip(v + w, -1.0, 1.0);
+//        double rightPower = Range.clip(v - w, -1.0, 1.0);
+//
+//        leftPower /= 2;
+//        rightPower /= 2;
+//
+//        LF.setPower(leftPower);
+//        LB.setPower(leftPower);
+//        RF.setPower(rightPower);
+//        RB.setPower(rightPower);
+//    }
+//
+//    private Robot robot;
+//
+//    private double initial = 0;
+//    private double setPointMeters;
+//
+//    private void drive_PID(double meters) {
+//        this.setPointMeters = meters;
+//
+//        this.robot = robot;
+//        this.initial = robot.getRightB().getCurrentPosition();
+//
+//
+//        double power = robot.getDrivePID().distance(robot.getRightB().getCurrentPosition(), initial + Robot.TICK_PER_METER_DRIVE * setPointMeters, 1);
+//        robot.drive(power, 0);
+//        robot.print("power", power);
+//        robot.print("encoder", robot.getRightB().getCurrentPosition());
+//        robot.print("inital", initial + Robot.TICK_PER_METER_DRIVE * setPointMeters);
+//        robot.print("inital1", initial);
+//        robot.print("ticks", Robot.TICK_PER_METER_DRIVE);
+//        robot.print("setPoint", setPointMeters);
+//    }
+
+
+
+
+
+
     @Override
     public void init() {
         telemetry.addData("Status", "Quack Attack!!!");
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftF = hardwareMap.get(DcMotor.class, "leftA");
+        leftF = hardwareMap.get(DcMotor.class, "leftF");
         leftB = hardwareMap.get(DcMotor.class, "leftB");
-        rightF = hardwareMap.get(DcMotor.class, "rightA");
+        rightF = hardwareMap.get(DcMotor.class, "rightF");
         rightB = hardwareMap.get(DcMotor.class, "rightB");
 
-        testServo = hardwareMap.get(Servo.class, "test_servo");
 
         turnPID = new PID(0.067, 0, 0.001);
 //        goodPID = new PID(0.067, 0, 0.001);
@@ -216,7 +276,10 @@ public class AutoPush extends OpMode {
         double leftPower;
         double rightPower;
 
-        turn_PID(90);
+        drive_PID(1);
+
+        drive_PID(-1);
+
 
 
 

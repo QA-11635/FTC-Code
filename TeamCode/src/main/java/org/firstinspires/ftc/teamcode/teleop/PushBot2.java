@@ -29,17 +29,12 @@
 
 package org.firstinspires.ftc.teamcode.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.PID;
-
-import com.qualcomm.hardware.bosch.BNO055IMU;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -55,97 +50,45 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "PushBot2", group = "Iterative Opmode")
+@TeleOp(name = "Robot TEST", group = "Iterative Opmode")
+@Disabled
 public class PushBot2 extends OpMode {
     // Declare OpMode members.
-
-    private static final int TICK_PER_REVOLUTION = 537;
-    private static final double WHEEL_RADIUS = 0.05;
-    private static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
-    private static final double TICK_PER_METER = (1 / WHEEL_CIRCUMFERENCE) * TICK_PER_REVOLUTION;
 
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftA = null;
     private DcMotor leftB = null;
     private DcMotor rightA = null;
     private DcMotor rightB = null;
-    private Servo testServo = null;
 
-    private PID leftPID;
-    private PID rightPID;
-
-    BNO055IMU imu;
-    Orientation lastAngles = new Orientation();
-    double globalAngle, power = .30, correction;
-
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
     @Override
     public void init() {
         telemetry.addData("Status", "Quack Attack!!!");
 
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
         leftA = hardwareMap.get(DcMotor.class, "leftA");
         leftB = hardwareMap.get(DcMotor.class, "leftB");
         rightA = hardwareMap.get(DcMotor.class, "rightA");
         rightB = hardwareMap.get(DcMotor.class, "rightB");
 
-        testServo = hardwareMap.get(Servo.class, "test_servo");
-
-        leftPID = new PID(1, 0, 0);
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
-
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-//        // Most robots need the motor on one side to be reversed to drive forward
-//        // Reverse the motor that runs backwards when connected directly to the battery
         leftA.setDirection(DcMotor.Direction.FORWARD);
         leftB.setDirection(DcMotor.Direction.FORWARD);
         rightA.setDirection(DcMotor.Direction.REVERSE);
         rightB.setDirection(DcMotor.Direction.REVERSE);
-
-        testServo.setDirection(Servo.Direction.FORWARD);
-//
-//        // Tell the driver that initialization is complete.
-//        telemetry.addData("Status", "Initialized");
     }
-
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
     @Override
     public void init_loop() {
     }
 
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
     @Override
     public void start() {
         runtime.reset();
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-
     @Override
     public void loop() {
-        // Setup a variable for each drive wheel to save power level for telemetry
         double leftPower;
         double rightPower;
 
-        // Choose to drive using either Tank Mode, or POV Mode
-        // Comment out the method that's not used.  The default below is POV.
-
-        // POV Mode uses left stick to go forward, and right stick to turn.
-        // - This uses basic math to combine motions and is easier to drive straight.
         double drive = -gamepad1.left_stick_y;
         double turn = gamepad1.right_stick_x;
         telemetry.addData("Joystick", "Drive: " + drive + " Turn: " + turn);
@@ -155,42 +98,16 @@ public class PushBot2 extends OpMode {
         leftPower = Range.clip(drive + turn, -1.0, 1.0);
         rightPower = Range.clip(drive - turn, -1.0, 1.0);
 
-        // Tank Mode uses one stick to control each wheel.
-        // - This requires no math, but it is hard to drive forward slowly and keep straight.
-        // leftPower  = -gamepad1.left_stick_y ;
-        // rightPower = -gamepad1.right_stick_y ;
+        leftPower *= 0.75;
+        rightPower *= 0.75;
 
-        // Send calculated power to wheels
-
-        leftPower /= 2;
-        rightPower /= 2;
-
-//        Controller:
         leftA.setPower(leftPower);
         leftB.setPower(leftPower);
         rightA.setPower(rightPower);
         rightB.setPower(rightPower);
 
-
-//        testServo.setPosition(gamepad1.right_stick_y >= 0.0 ? gamepad1.right_stick_y : 0);
-
-        if (gamepad1.x) {
-            testServo.setPosition(0.35);
-        } else if (gamepad1.y) {
-            testServo.setPosition(0);
         }
 
-        telemetry.addData("servo position", "position:" + testServo.getPosition());
-
-        // Show the elapsed game time and wheel power.
-//        telemetry.addData("Status", "Run Time: " + runtime.toString());
-//        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-
-    }
-
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
     @Override
     public void stop() {
     }

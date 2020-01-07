@@ -20,7 +20,10 @@ public class AutoLazySusan implements Action {
     @Override
     public boolean loop() {
         if (spin){
-            robot.getLazySusan().setPosition(0.35);
+            robot.getLazySusan().setPosition(0.4);
+            if (robot.getLazySusan().getPosition() >= 0.3){
+                robot.getLazySusan().setPosition(0);
+            }
         }else {
             robot.getLazySusan().setPosition(0);
         }

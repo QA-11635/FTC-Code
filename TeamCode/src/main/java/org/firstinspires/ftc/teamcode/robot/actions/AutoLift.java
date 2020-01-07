@@ -25,16 +25,17 @@ public class AutoLift implements Action {
 
     @Override
     public boolean loop() {
-        if (robot.getTouchSensorLmin().isPressed()){
-            robot.getLiftMotor().setPower(0);
-            new AutoLift(0.02);
-        }
-        if (robot.getTouchSensorLmax().isPressed()){
-            robot.getLiftMotor().setPower(0);
-            new AutoLift(-0.02);
-        }
+//        if (robot.getTouchSensorLmin().isPressed()){
+//            robot.getLiftMotor().setPower(0);
+//            new AutoLift(0.02);
+//        }
+//        if (robot.getTouchSensorLmax().isPressed()){
+//            robot.getLiftMotor().setPower(0);
+//            new AutoLift(-0.02);
+//        }
         double power = robot.getDrivePID().distance(robot.getLiftMotor().getCurrentPosition(), initial + Robot.TICK_PER_METER_LIFT * setPointMetersLift, 1);
         robot.drive(power, 0);
+        robot.getLiftMotor().setPower(power);
         return Math.abs(power) == 0;
     }
 }

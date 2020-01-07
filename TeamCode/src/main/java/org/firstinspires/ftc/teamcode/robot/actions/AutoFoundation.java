@@ -20,8 +20,12 @@ public class AutoFoundation implements Action {
     @Override
     public boolean loop() {
         if (hold){
-            robot.getServoFoundationL().setPosition(0.35);
-            robot.getServoFoundationR().setPosition(0.35);
+            robot.getServoFoundationL().setPosition(0.4);
+            robot.getServoFoundationR().setPosition(0.4);
+            if (robot.getServoFoundationL().getPosition() >= 0.3 && robot.getServoFoundationR().getPosition() >= 0.3){
+                robot.getServoFoundationL().setPosition(0);
+                robot.getServoFoundationR().setPosition(0);
+            }
         }else {
             robot.getServoFoundationL().setPosition(0);
             robot.getServoFoundationR().setPosition(0);

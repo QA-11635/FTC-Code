@@ -30,11 +30,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.autonomous.Action;
 import org.firstinspires.ftc.teamcode.robot.Robot;
-import org.firstinspires.ftc.teamcode.robot.actions.AutoCollect;
+//import org.firstinspires.ftc.teamcode.robot.actions.AutoCollect;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoDrive;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoTurn;
 
@@ -56,6 +57,7 @@ import org.firstinspires.ftc.teamcode.robot.actions.AutoTurn;
 
 
 @Autonomous(name = "AutoPush2", group = "Autonomous")
+@Disabled
 public class AutoPush2 extends OpMode {
     // Declare OpMode members.
 

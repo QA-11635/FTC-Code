@@ -20,6 +20,7 @@ public class Scheduler {
     public void loop() {
         if (actions.size() > 0) {
             if (actions.get(0) != null) {
+                robot.print("Action", actions.get(0).getClass().getSimpleName());
                 if (!isSetup) {
                     actions.get(0).setup(robot);
                     isSetup = true;
