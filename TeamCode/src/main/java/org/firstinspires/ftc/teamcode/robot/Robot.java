@@ -39,7 +39,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 
 
 public class Robot {
-    private static final int TICK_PER_REVOLUTION = 537;
+    private static final int TICK_PER_REVOLUTION = 1044;
 
     private static final double WHEEL_RADIUS_DRIVE = 0.045;
     private static final double WHEEL_CIRCUMFERENCE_DRIVE = (2 * Math.PI * WHEEL_RADIUS_DRIVE);
@@ -57,8 +57,8 @@ public class Robot {
     private DcMotor rightF = null;
     private DcMotor rightB = null;
 
-    private Servo servoFoundationL = null;
-    private Servo servoFoundationR = null;
+//    private Servo servoFoundationL = null;
+//    private Servo servoFoundationR = null;
 
     private Servo lazySusan = null;
     private Servo grabServo = null;
@@ -70,11 +70,11 @@ public class Robot {
     private DcMotor collectR = null;
 
     private ColorSensor colorSensorL = null;
-    private ColorSensor colorSensorS = null;
+//    private ColorSensor colorSensorS = null;
     private TouchSensor touchSensorC = null;
-    private TouchSensor touchSensorLmin = null;
-    private TouchSensor touchSensorLmax = null;
-    private TouchSensor touchSensorHmin = null;
+//    private TouchSensor touchSensorLmin = null;
+//    private TouchSensor touchSensorLmax = null;
+//    private TouchSensor touchSensorHmin = null;
 
     private PID turnPID;
     private PID drivePID;
@@ -96,8 +96,8 @@ public class Robot {
         rightF = hardwareMap.get(DcMotor.class, "rightA");
         rightB = hardwareMap.get(DcMotor.class, "rightB");
 
-        servoFoundationL = hardwareMap.get(Servo.class, " LeftFServo");
-        servoFoundationR = hardwareMap.get(Servo.class, " RightFServo");
+//        servoFoundationL = hardwareMap.get(Servo.class, " LeftFServo");
+//        servoFoundationR = hardwareMap.get(Servo.class, " RightFServo");
 
         lazySusan = hardwareMap.get(Servo.class, "lazySusan");
         grabServo = hardwareMap.get(Servo.class, "grabServo");
@@ -108,15 +108,15 @@ public class Robot {
         collectL = hardwareMap.get(DcMotor.class, "leftCollect");
         collectR = hardwareMap.get(DcMotor.class, "rightCollect");
 
-        colorSensorL = hardwareMap.get(ColorSensor.class,"colorSensorLine");
-        colorSensorS = hardwareMap.get(ColorSensor.class,"colorSensorStone");
+        colorSensorL = hardwareMap.get(ColorSensor.class,"colorSensor");
+//        colorSensorS = hardwareMap.get(ColorSensor.class,"colorSensorStone");
 
         touchSensorC = hardwareMap.get(TouchSensor.class, "touchCollect");
 
-        touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
-        touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
+//        touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
+//        touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
 
-        touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
+//        touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
 
 
         turnPID = new PID(0.067, 0, 0.001);
@@ -169,11 +169,18 @@ public class Robot {
         collectL.setDirection(DcMotor.Direction.REVERSE);
         collectR.setDirection(DcMotor.Direction.FORWARD );
 
-        servoFoundationL.setDirection(Servo.Direction.FORWARD);
-        servoFoundationR.setDirection(Servo.Direction.FORWARD);
+//        servoFoundationL.setDirection(Servo.Direction.FORWARD);
+//        servoFoundationR.setDirection(Servo.Direction.FORWARD);
 
         lazySusan.setDirection(Servo.Direction.FORWARD);
         grabServo.setDirection(Servo.Direction.FORWARD);
+
+        leftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
 
 
     }
@@ -264,13 +271,13 @@ public class Robot {
         return hexMotor;
     }
 
-    public Servo getServoFoundationL(){
-        return servoFoundationL;
-    }
-
-    public Servo getServoFoundationR(){
-        return servoFoundationR;
-    }
+//    public Servo getServoFoundationL(){
+//        return servoFoundationL;
+//    }
+//
+//    public Servo getServoFoundationR(){
+//        return servoFoundationR;
+//    }
 
     public Servo getGrabServo(){
         return grabServo;
@@ -284,25 +291,25 @@ public class Robot {
         return colorSensorL;
     }
 
-    public ColorSensor getColorSensorS() {
-        return colorSensorS;
-    }
+//    public ColorSensor getColorSensorS() {
+//        return colorSensorS;
+//    }
 
     public TouchSensor getTouchSensorC(){
         return touchSensorC;
     }
 
-    public TouchSensor getTouchSensorLmin(){
-        return touchSensorLmin;
-    }
-
-    public TouchSensor getTouchSensorLmax(){
-        return touchSensorLmax;
-    }
-
-    public TouchSensor getTouchSensorHmin(){
-        return touchSensorHmin;
-    }
+//    public TouchSensor getTouchSensorLmin(){
+//        return touchSensorLmin;
+//    }
+//
+//    public TouchSensor getTouchSensorLmax(){
+//        return touchSensorLmax;
+//    }
+//
+//    public TouchSensor getTouchSensorHmin(){
+//        return touchSensorHmin;
+//    }
 
     public HardwareMap getHardwareMap() {
         return hardwareMap;

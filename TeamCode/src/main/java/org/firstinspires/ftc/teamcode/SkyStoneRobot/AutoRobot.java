@@ -75,10 +75,7 @@ public class AutoRobot extends OpMode {
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
         robot.runAutonomous(new Action[]{
-                new AutoLazySusan(true),
-                new AutoGrab(true),
-                new AutoLazySusan(false),
-                new AutoGrab(false)
+                new AutoDrive(1),
         });
     }
 

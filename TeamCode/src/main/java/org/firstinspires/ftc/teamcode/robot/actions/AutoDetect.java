@@ -20,12 +20,16 @@ public class AutoDetect implements Action {
     @Override
     public boolean loop() {
         if (on){
-            while (robot.getColorSensorS().alpha() <= 9){
-                new AutoDrive(0);
-            }
-        }else {
-            return robot.getColorSensorS().alpha() <= 9;
         }
-        return robot.getColorSensorS().alpha() >= 9;
+            if (robot.getColorSensorL().alpha() >= 50 && robot.getColorSensorL().alpha() <= 62){
+                robot.getCollectL().setPower(1);
+                robot.getCollectR().setPower(1);
+                return on = true;
+            }
+            if (robot.getColorSensorL().alpha() >= 99 && robot.getColorSensorL().alpha() <= 122){
+                robot.getCollectL().setPower(0);
+                robot.getCollectR().setPower(0);
+                return on = false;
+            }return on;
     }
 }

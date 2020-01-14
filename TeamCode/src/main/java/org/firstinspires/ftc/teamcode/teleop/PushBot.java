@@ -29,16 +29,21 @@
 
 package org.firstinspires.ftc.teamcode.teleop;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.internal.android.dx.util.Hex;
 import org.firstinspires.ftc.teamcode.PID;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -58,6 +63,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
  */
 
 @TeleOp(name = "testing", group = "Iterative Opmode")
+@Disabled
 public class PushBot extends OpMode {
     // Declare OpMode members.
 
@@ -69,10 +75,13 @@ public class PushBot extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftA = null;
     private DcMotor leftB = null;
-//    private DcMotor rightA = null;
-//    private DcMotor rightB = null;
-//    private Servo testServo = null;
+    private DcMotor rightA = null;
+    private DcMotor rightB = null;
+    private Servo testServo = null;
 //    private DcMotor testMotor = null;
+    private TouchSensor touchSensor = null;
+    private ColorSensor colorSensor = null;
+
 
     private PID leftPID;
     private PID rightPID;
@@ -93,11 +102,14 @@ public class PushBot extends OpMode {
         // step (using the FTC Robot Controller app on the phone).
         leftA = hardwareMap.get(DcMotor.class, "leftA");
         leftB = hardwareMap.get(DcMotor.class, "leftB");
-//        rightA = hardwareMap.get(DcMotor.class, "rightA");
-//        rightB = hardwareMap.get(DcMotor.class, "rightB");
+        rightA = hardwareMap.get(DcMotor.class, "rightA");
+        rightB = hardwareMap.get(DcMotor.class, "rightB");
 
-//        testServo = hardwareMap.get(Servo.class, "test_servo");
+        testServo = hardwareMap.get(Servo.class, "servo");
 //        testMotor = hardwareMap.get(DcMotor.class, "test_motor");
+
+        touchSensor = hardwareMap.get(TouchSensor.class,"touch");
+        colorSensor = hardwareMap.get(ColorSensor.class,"color");
 
         leftPID = new PID(1, 0, 0);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -111,13 +123,17 @@ public class PushBot extends OpMode {
 //        // Reverse the motor that runs backwards when connected directly to the battery
         leftA.setDirection(DcMotor.Direction.FORWARD);
         leftB.setDirection(DcMotor.Direction.FORWARD);
-//        rightA.setDirection(DcMotor.Direction.REVERSE);
-//        rightB.setDirection(DcMotor.Direction.REVERSE);
+        rightA.setDirection(DcMotor.Direction.FORWARD);
+        rightB.setDirection(DcMotor.Direction.REVERSE);
 //        testMotor.setDirection(DcMotor.Direction.FORWARD);
 //        testServo.setDirection(Servo.Direction.FORWARD);
+
 ////
 //        // Tell the driver that initialization is complete.
 //        telemetry.addData("Status", "Initialized");
+        leftA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
 
     /*
@@ -143,6 +159,9 @@ public class PushBot extends OpMode {
     public void loop() {
         // Setup a variable for each drive wheel to save power level for telemetry
         double leftPower;
+
+        double liftPower;
+        double hexPower;
 //        double rightPower;
 //        double Power;
 //
@@ -151,13 +170,18 @@ public class PushBot extends OpMode {
 //
 //        // POV Mode uses left stick to go forward, and right stick to turn.
 //        // - This uses basic math to combine motions and is easier to drive straight.
-        double drive = -gamepad1.left_stick_y;
-        double turn = gamepad1.left_stick_x;
-        telemetry.addData("Joystick", "Drive: " + drive + " Turn: " + turn);
+//        double drive = -gamepad1.left_stick_y;
+//        double turn = gamepad1.left_stick_x;
+//        telemetry.addData("Joystick", "Drive: " + drive + " Turn: " + turn);
 
-        turn /= 2;
+        double lift = -gamepad1.left_stick_y;
+        double hex = gamepad1.right_stick_x;
+        liftPower = Range.clip(lift + 0, -1.0, 1.0);
+        hexPower = Range.clip(hex + 0, -1.0, 1.0);
 
-        leftPower = Range.clip(drive + turn, -1.0, 1.0);
+//        turn /= 2;
+//
+//        leftPower = Range.clip(drive + turn, -1.0, 1.0);
 //        rightPower = Range.clip(drive - turn, -1.0, 1.0);
 //        Power = Range.clip(drive + turn, -1.0, 1.0);
 
@@ -169,22 +193,56 @@ public class PushBot extends OpMode {
 //
 //        // Send calculated power to wheels
 //
-        leftPower /= 2;
+//        leftPower *= 0.8;
 //        rightPower /= 2;
 //          Power /=2;
+
+        liftPower *= 0.8;
+        hexPower *= 0.8;
 //
 ////        Controller:
-        leftA.setPower(leftPower);
-        leftB.setPower(leftPower);
+        leftA.setPower(-liftPower);
+        leftB.setPower(-hexPower);
+
 //        rightA.setPower(rightPower);
 //        rightB.setPower(rightPower);
+
+//        testServo.setPosition(gamepad1.right_stick_y >= 0.0 ? gamepad1.right_stick_y : 0);
+        telemetry.addData("servo", "servo:" + testServo.getPosition());
+
+        if (gamepad1.x) {
+            testServo.setPosition(1);
+        } else if (gamepad1.y) {
+            testServo.setPosition(0);
+        }
+        if (gamepad1.a){
+            rightA.setPower(1);
+            rightB.setPower(1);
+        }
+        if (gamepad1.b){
+            rightA.setPower(0);
+            rightB.setPower(0);
+        }
+        if (touchSensor.isPressed()){
+            rightA.setPower(0);
+            rightB.setPower(0);
+        }
 //
-////
-//        if (gamepad2.x) {
-//            testServo.setPosition(0.4);
-//        } else if (gamepad2.y) {
-//            testServo.setPosition(0);
+//        while (touchSensor.isPressed()){
+//            leftA.setPower(1);
 //        }
+//      while (colorSensor.alpha() <= 9){
+//            leftA.setPower(1);
+//        }
+
+        telemetry.addData("touch", "touch:" + touchSensor.isPressed());
+
+        telemetry.addData("color", "color:" + colorSensor);
+        telemetry.addData("color", "color alpha:" + colorSensor.alpha());
+        telemetry.addData("red","red:" + colorSensor.red());
+        telemetry.addData("blue","blue:" + colorSensor.blue());
+        telemetry.addData("green","green:" + colorSensor.green());
+////
 //        testServo.setPosition(gamepad1.right_stick_y >= 0.0 ? gamepad1.right_stick_y : 0);
 //        testMotor.setPower(Power);
 

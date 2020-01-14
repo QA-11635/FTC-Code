@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.actions;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.autonomous.Action;
 import org.firstinspires.ftc.teamcode.robot.Robot;
@@ -9,9 +11,10 @@ public class AutoDrive implements Action {
     private Robot robot;
 
 //    private double initial = 0;
-    private double setPointMeters;
+    private int setPointMeters;
 
-    public AutoDrive(double meters) {
+
+    public AutoDrive(int meters) {
         this.setPointMeters = meters;
     }
 
@@ -20,27 +23,78 @@ public class AutoDrive implements Action {
         this.robot = robot;
 //        this.initial = robot.getRightB().getCurrentPosition();
 
+
     }
 
     @Override
     public boolean loop() {
-        double power = robot.getDrivePID().distance(robot.getRightB().getCurrentPosition(),   Robot.TICK_PER_METER_DRIVE * setPointMeters, 1);
-        robot.drive(power, 0);
+//        double power = robot.getDrivePID().distance(robot.getLeftB().getCurrentPosition(),   Robot.TICK_PER_METER_DRIVE * setPointMeters, 1);
+//        robot.drive(power, 0);
 
-        robot.print("power", power);
-        robot.print("encoder", robot.getRightB().getCurrentPosition());
-//        robot.print("inital", initial + Robot.TICK_PER_METER_DRIVE * setPointMeters);
-//        robot.print("inital1", initial);
-        robot.print("ticks", Robot.TICK_PER_METER_DRIVE);
-        robot.print("setPoint", setPointMeters);
-
-        robot.getLeftF().setPower(power);
-        robot.getLeftB().setPower(power);
-        robot.getRightF().setPower(power);
-        robot.getRightB().setPower(power);
+//        robot.print("power", power);
+//        robot.print("encoder", robot.getRightB().getCurrentPosition());
+////        robot.print("inital", initial + Robot.TICK_PER_METER_DRIVE * setPointMeters);
+////        robot.print("inital1", initial);
+//        robot.print("ticks", Robot.TICK_PER_METER_DRIVE);
+//        robot.print("setPoint", setPointMeters);
 
 
-        return Math.abs(power) == 0;
+        int distance = 1120 * setPointMeters;
+
+        robot.print("left F:",robot.getLeftF().getCurrentPosition());
+        robot.print("right F:",robot.getRightF().getCurrentPosition());
+        robot.print("left B:",robot.getLeftF().getCurrentPosition());
+        robot.print("right B:",robot.getRightF().getCurrentPosition());
+
+        robot.getLeftF().setTargetPosition(distance);
+        robot.getLeftB().setTargetPosition(distance);
+        robot.getRightF().setTargetPosition(-distance);
+        robot.getRightB().setTargetPosition(-distance);
+
+        robot.getLeftF().setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.getLeftB().setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.getRightF().setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.getRightB().setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+//        if(setPointMeters > 0){
+//            robot.getLeftF().setPower(0.3);
+//            robot.getLeftB().setPower(0.3);
+//            robot.getRightF().setPower(-0.3);
+//            robot.getRightB().setPower(-0.3);
+//        }else if (setPointMeters < 0) {
+//            robot.getLeftF().setPower(-0.3);
+//            robot.getLeftB().setPower(-0.3);
+//            robot.getRightF().setPower(0.3);
+//            robot.getRightB().setPower(0.3);
+//        }
+
+        robot.getLeftF().setPower(0.3);
+        robot.getLeftB().setPower(0.3);
+        robot.getRightF().setPower(0.3);
+        robot.getRightB().setPower(0.3);
+
+
+
+        while (robot.getLeftF().isBusy() && robot.getLeftB().isBusy() && robot.getRightF().isBusy() && robot.getRightB().isBusy()){
+
+        }
+
+        robot.getLeftF().setPower(0);
+        robot.getLeftB().setPower(0);
+        robot.getRightF().setPower(0);
+        robot.getRightB().setPower(0);
+
+        robot.getLeftF().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.getLeftB().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.getRightF().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.getRightB().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robot.getLeftF().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.getLeftB().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.getRightF().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.getRightB().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        return true;
 
 
 //        double fix = robot.getDrivePID().distance(robot.getRightB().getCurrentPosition(), initial + setPointMeters * Robot.TICK_PER_METER_DRIVE, 1);
