@@ -14,15 +14,14 @@ public class AutoDrive implements Action {
     private int setPointMeters;
 
 
-    public AutoDrive(int meters) {
-        this.setPointMeters = meters;
+    public AutoDrive(int encoder) {
+        this.setPointMeters = encoder;
     }
 
     @Override
     public void setup(Robot robot) {
         this.robot = robot;
 //        this.initial = robot.getRightB().getCurrentPosition();
-
 
     }
 
@@ -38,40 +37,26 @@ public class AutoDrive implements Action {
 //        robot.print("ticks", Robot.TICK_PER_METER_DRIVE);
 //        robot.print("setPoint", setPointMeters);
 
+//        int distance = 3500 * setPointMeters;
+        robot.getLeftF().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.getLeftB().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.getRightF().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.getRightB().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        int distance = 1120 * setPointMeters;
-
-        robot.print("left F:",robot.getLeftF().getCurrentPosition());
-        robot.print("right F:",robot.getRightF().getCurrentPosition());
-        robot.print("left B:",robot.getLeftF().getCurrentPosition());
-        robot.print("right B:",robot.getRightF().getCurrentPosition());
-
-        robot.getLeftF().setTargetPosition(distance);
-        robot.getLeftB().setTargetPosition(distance);
-        robot.getRightF().setTargetPosition(-distance);
-        robot.getRightB().setTargetPosition(-distance);
+        robot.getLeftF().setTargetPosition(setPointMeters);
+        robot.getLeftB().setTargetPosition(setPointMeters);
+        robot.getRightF().setTargetPosition(setPointMeters);
+        robot.getRightB().setTargetPosition(setPointMeters);
 
         robot.getLeftF().setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.getLeftB().setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.getRightF().setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.getRightB().setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-//        if(setPointMeters > 0){
-//            robot.getLeftF().setPower(0.3);
-//            robot.getLeftB().setPower(0.3);
-//            robot.getRightF().setPower(-0.3);
-//            robot.getRightB().setPower(-0.3);
-//        }else if (setPointMeters < 0) {
-//            robot.getLeftF().setPower(-0.3);
-//            robot.getLeftB().setPower(-0.3);
-//            robot.getRightF().setPower(0.3);
-//            robot.getRightB().setPower(0.3);
-//        }
-
-        robot.getLeftF().setPower(0.3);
-        robot.getLeftB().setPower(0.3);
-        robot.getRightF().setPower(0.3);
-        robot.getRightB().setPower(0.3);
+        robot.getLeftF().setPower(0.7);
+        robot.getLeftB().setPower(0.7);
+        robot.getRightF().setPower(-0.7);
+        robot.getRightB().setPower(-0.7);
 
 
 
@@ -88,11 +73,6 @@ public class AutoDrive implements Action {
         robot.getLeftB().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.getRightF().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.getRightB().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        robot.getLeftF().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.getLeftB().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.getRightF().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.getRightB().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         return true;
 

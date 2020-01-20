@@ -29,8 +29,8 @@ public class RobotTeleOp extends OpMode {
     private DcMotor rightA = null;
     private DcMotor rightB = null;
 
-//    private Servo servoFoundationL = null;
-//    private Servo servoFoundationR = null;
+    private Servo servoFoundationL = null;
+    private Servo servoFoundationR = null;
 
     private Servo lazySusan = null;
     private Servo grabServo = null;
@@ -42,9 +42,9 @@ public class RobotTeleOp extends OpMode {
     private DcMotor collectR = null;
 
     private TouchSensor touchSensorC = null;
-//    private TouchSensor touchSensorLmin = null;
+    private TouchSensor touchSensorLmin = null;
 //    private TouchSensor touchSensorLmax = null;
-//    private TouchSensor touchSensorHmin = null;
+    private TouchSensor touchSensorHmin = null;
     private ColorSensor colorSensor = null;
 
     @Override
@@ -56,8 +56,8 @@ public class RobotTeleOp extends OpMode {
         rightA = hardwareMap.get(DcMotor.class, "rightA");
         rightB = hardwareMap.get(DcMotor.class, "rightB");
 
-//        servoFoundationL = hardwareMap.get(Servo.class, " LeftFServo");
-//        servoFoundationR = hardwareMap.get(Servo.class, " RightFServo");
+        servoFoundationL = hardwareMap.get(Servo.class, " LeftFServo");
+        servoFoundationR = hardwareMap.get(Servo.class, " RightFServo");
 
         lazySusan = hardwareMap.get(Servo.class, "lazySusan");
         grabServo = hardwareMap.get(Servo.class, "grabServo");
@@ -72,10 +72,10 @@ public class RobotTeleOp extends OpMode {
 
         colorSensor = hardwareMap.get(ColorSensor.class,"colorSensor");
 
-//        touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
+        touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
 //        touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
 //
-//        touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
+        touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
 
         leftA.setDirection(DcMotor.Direction.FORWARD);
         leftB.setDirection(DcMotor.Direction.FORWARD);
@@ -88,8 +88,8 @@ public class RobotTeleOp extends OpMode {
         collectL.setDirection(DcMotor.Direction.REVERSE);
         collectR.setDirection(DcMotor.Direction.FORWARD);
 
-//        servoFoundationL.setDirection(Servo.Direction.FORWARD);
-//        servoFoundationR.setDirection(Servo.Direction.FORWARD);
+        servoFoundationL.setDirection(Servo.Direction.FORWARD);
+        servoFoundationR.setDirection(Servo.Direction.REVERSE);
 
         lazySusan.setDirection(Servo.Direction.FORWARD);
         grabServo.setDirection(Servo.Direction.FORWARD);
@@ -128,8 +128,8 @@ public class RobotTeleOp extends OpMode {
         leftPower = Range.clip(drive + turn, -1.0, 1.0);
         rightPower = Range.clip(drive - turn, -1.0, 1.0);
 
-        leftPower /=2;
-        rightPower /=2;
+        leftPower *= 0.75;
+        rightPower *=0.75;
 
         double lift = -gamepad2.left_stick_y;
         double hex = -gamepad2.right_stick_y;
@@ -137,7 +137,7 @@ public class RobotTeleOp extends OpMode {
         hexPower = Range.clip(hex + 0, -1.0, 1.0);
 
         liftPower *= 0.8;
-        hexPower *= 0.7;
+        hexPower *= 0.8;
 
         if (-gamepad2.right_stick_y == 0){
             hexMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -159,18 +159,18 @@ public class RobotTeleOp extends OpMode {
         hexMotor.setPower(hexPower);
 
 //        //foundation servo
-//        if (gamepad2.dpad_up) {
-//            servoFoundationL.setPosition(0);
-//            servoFoundationR.setPosition(0);
-//        } else if (gamepad2.dpad_down) {
-//            servoFoundationL.setPosition(0.5);
-//            servoFoundationR.setPosition(0.5);
-//        }
+        if (gamepad2.dpad_down) {
+            servoFoundationL.setPosition(0);
+            servoFoundationR.setPosition(0);
+        } else if (gamepad2.dpad_up) {
+            servoFoundationL.setPosition(0.35);
+            servoFoundationR.setPosition(0.35);
+        }
 
 //        //collection
         if (gamepad2.a) {
-            collectL.setPower(0.75);
-            collectR.setPower(0.75);
+            collectL.setPower(0.9);
+            collectR.setPower(0.9);
         } else if (gamepad2.b) {
             collectL.setPower(0);
             collectR.setPower(0);
@@ -178,18 +178,23 @@ public class RobotTeleOp extends OpMode {
             collectL.setPower(-1);
             collectR.setPower(-1);
         }
-        if (touchSensorC.isPressed()){
-                collectL.setPower(0);
-                collectR.setPower(0);
-        }
-
+//        if (colorSensor.alpha() >= 50 && colorSensor.alpha() <= 62){
+//            collectL.setPower(0.9);
+//            collectR.setPower(0.9);
+//        }
+//        if (colorSensor.alpha() >= 99 && colorSensor.alpha() <= 122) {
+//            collectL.setPower(0);
+//            collectR.setPower(0);
+//        }
 
 //        //spin
         if (gamepad2.left_bumper) {
-            lazySusan.setPosition(1);
+            lazySusan.setPosition(0.15);
         } else if (gamepad2.right_bumper) {
             lazySusan.setPosition(0.45);
         }
+
+
 
         //grab
         if (gamepad2.x) {
@@ -198,14 +203,21 @@ public class RobotTeleOp extends OpMode {
             grabServo.setPosition(0);
         }
 
-//        telemetry.addData("touch", "touch:" + touchSensorC.isPressed());
-//
+        telemetry.addData("touch", "touch:" + touchSensorC.isPressed());
+        telemetry.addData("MS1", touchSensorLmin.isPressed());
+        telemetry.addData("MS2", touchSensorHmin.isPressed());
+//        telemetry.addData("servo",servoFoundationL.getPosition());
+//        telemetry.addData("servo",servoFoundationL.getDirection());
+
 //        telemetry.addData("color", "color alpha:" + colorSensor.alpha());
 //        telemetry.addData("red","red:" + colorSensor.red());
 //        telemetry.addData("blue","blue:" + colorSensor.blue());
 //        telemetry.addData("green","green:" + colorSensor.green());
 //
-//        telemetry.addData("encoder", leftA.getCurrentPosition());
+//        telemetry.addData("encoder leftA", leftA.getCurrentPosition());
+//        telemetry.addData("encoder left B", leftB.getCurrentPosition());
+//        telemetry.addData("encoder rightA", rightA.getCurrentPosition());
+//        telemetry.addData("encoder rightB", rightB.getCurrentPosition());
 
 
 
@@ -235,40 +247,40 @@ public class RobotTeleOp extends OpMode {
 //       Switches:
 
 //        grabbing the cube automatic
-//        if (touchSensorC.isPressed()){
-//            liftMotor.setPower(-1);
-//            if (touchSensorLmin.isPressed()){
-//                liftMotor.setPower(0);
-//
-//            }
-//            hexMotor.setPower(-1);
-//            if (touchSensorHmin.isPressed()) {
-//                hexMotor.setPower(0);
-//            }
-//            lazySusan.setPosition(0);
-//            grabServo.setPosition(0);
-//            grabServo.setPosition(0.4);
+        if (touchSensorC.isPressed()){
+            liftMotor.setPower(-0.7);
+            if (touchSensorLmin.isPressed()){
+                liftMotor.setPower(0);
+
+            }
+            hexMotor.setPower(-0.7);
+            if (touchSensorHmin.isPressed()) {
+                hexMotor.setPower(0);
+            }
+            lazySusan.setPosition(0);
+            grabServo.setPosition(0);
+            grabServo.setPosition(0.4);
         }
 
-        //turning off collection
-//        if (touchSensorC.isPressed()){
-//            collectL.setPower(0);
-//            collectR.setPower(0);
-//        }
-//
-//        //turning off lift
-//        if (touchSensorLmin.isPressed()){
-//            liftMotor.setPower(0);
-//        }
+//        turning off collection
+        if (touchSensorC.isPressed()){
+            collectL.setPower(0);
+            collectR.setPower(0);
+        }
+
+        //turning off lift
+        if (touchSensorLmin.isPressed()){
+            liftMotor.setPower(0);
+        }
 //        if (touchSensorLmax.isPressed()){
 //            liftMotor.setPower(0);
 //        }
-//
-//        //turning off hex
-//        if (touchSensorHmin.isPressed()){
-//            hexMotor.setPower(0);
-//        }
-//    }
+
+        //turning off hex
+        if (touchSensorHmin.isPressed()){
+            hexMotor.setPower(0);
+        }
+    }
 
     @Override
     public void stop() {

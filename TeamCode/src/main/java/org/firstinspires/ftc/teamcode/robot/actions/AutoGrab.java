@@ -20,10 +20,7 @@ public class AutoGrab implements Action {
     @Override
     public boolean loop() {
         if (take){
-            robot.getGrabServo().setPosition(0.4);
-            if (robot.getGrabServo().getPosition() >= 0.3){
-                robot.getGrabServo().setPosition(0);
-            }
+            robot.getGrabServo().setPosition(1);
         }else {
             robot.getGrabServo().setPosition(0);
         }

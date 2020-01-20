@@ -43,8 +43,12 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoLine;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoDetect;
 //import org.firstinspires.ftc.teamcode.robot.actions.AutoLift;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoCollect;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoDetect;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoGrab;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoHex;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoLazySusan;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoLift;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoTurn;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoDrive;
 
@@ -75,7 +79,19 @@ public class AutoRobot extends OpMode {
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
         robot.runAutonomous(new Action[]{
-                new AutoDrive(1),
+                new AutoLift(-1100),
+                new AutoDrive(2150),
+                new AutoTurn(-90),
+                new AutoDrive(-2400),
+                new AutoTurn(-45),
+                new AutoCollect(true),
+                new AutoDrive(2200),
+                new AutoDrive(-2400),
+                new AutoTurn(-90),
+//                new AutoCollect(false),
+                new AutoLift(1100),
+                new AutoDrive(3700),
+
         });
     }
 

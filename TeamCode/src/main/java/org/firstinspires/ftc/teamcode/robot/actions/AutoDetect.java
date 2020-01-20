@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.robot.actions;
 
 import org.firstinspires.ftc.teamcode.autonomous.Action;
 import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoTurn;
+
 
 public class AutoDetect implements Action {
 
@@ -22,8 +24,10 @@ public class AutoDetect implements Action {
         if (on){
         }
             if (robot.getColorSensorL().alpha() >= 50 && robot.getColorSensorL().alpha() <= 62){
+                new AutoTurn(-90);
                 robot.getCollectL().setPower(1);
                 robot.getCollectR().setPower(1);
+                new AutoDrive(50);
                 return on = true;
             }
             if (robot.getColorSensorL().alpha() >= 99 && robot.getColorSensorL().alpha() <= 122){
