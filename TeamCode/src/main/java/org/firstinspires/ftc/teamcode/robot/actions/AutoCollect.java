@@ -7,9 +7,9 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 public class AutoCollect implements Action {
 
     private Robot robot;
-    private boolean open;
+    private int open = 0;
 
-    public AutoCollect(boolean open) {
+    public AutoCollect(int open) {
         this.open = open;
     }
 
@@ -19,7 +19,7 @@ public class AutoCollect implements Action {
     }
     @Override
     public boolean loop() {
-        if (open){
+        if (open == 1){
             robot.getCollectL().setPower(1);
             robot.getCollectR().setPower(1);
             if (robot.getTouchSensorC().isPressed()){
@@ -30,11 +30,15 @@ public class AutoCollect implements Action {
                 robot.getCollectR().setPower(1);
             }
         }
-        else{
+        else if (open == 0){
             robot.getCollectL().setPower(0);
             robot.getCollectR().setPower(0);
         }
-        return open;
+        else if (open == 2){
+            robot.getCollectL().setPower(-1);
+            robot.getCollectR().setPower(-1);
+        }
+        return true;
 
     }
 }

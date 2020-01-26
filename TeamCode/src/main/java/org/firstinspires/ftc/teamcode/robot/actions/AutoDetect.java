@@ -13,27 +13,26 @@ public class AutoDetect implements Action {
 
     public AutoDetect(boolean on) {
         this.on = on;
+
     }
 
     @Override
     public void setup(Robot robot) {
         this.robot = robot;
+
     }
+
     @Override
     public boolean loop() {
-        if (on){
-        }
-            if (robot.getColorSensorL().alpha() >= 50 && robot.getColorSensorL().alpha() <= 62){
-                new AutoTurn(-90);
-                robot.getCollectL().setPower(1);
+        if (on) {
+            if (robot.getColorSensorS().alpha() <= 110) {
                 robot.getCollectR().setPower(1);
-                new AutoDrive(50);
-                return on = true;
-            }
-            if (robot.getColorSensorL().alpha() >= 99 && robot.getColorSensorL().alpha() <= 122){
-                robot.getCollectL().setPower(0);
+                robot.getCollectL().setPower(1);
+            }else{
                 robot.getCollectR().setPower(0);
-                return on = false;
-            }return on;
+                robot.getCollectL().setPower(0);
+            }
+        }
+        return true;
     }
 }

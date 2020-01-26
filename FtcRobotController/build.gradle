@@ -19,7 +19,9 @@ android {
 }
 
 dependencies {
+    implementation files('C:\\Users\\kosov\\OneDrive\\שולחן העבודה\\maven\\com\\revrobotics\\frc\\ColorSensorV3-java\\1.0.1\\ColorSensorV3-java-1.0.1.jar')
 }
+
 
 repositories {
     flatDir {

@@ -7,9 +7,9 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 public class AutoFoundation implements Action {
 
     private Robot robot;
-    private boolean hold;
+    private int hold = 0;
 
-    public AutoFoundation(boolean hold) {
+    public AutoFoundation(int hold) {
         this.hold = hold;
     }
 
@@ -19,18 +19,14 @@ public class AutoFoundation implements Action {
     }
     @Override
     public boolean loop() {
-        if (hold){
-            robot.getServoFoundationL().setPosition(0.4);
-            robot.getServoFoundationR().setPosition(0.4);
-            if (robot.getServoFoundationL().getPosition() >= 0.3 && robot.getServoFoundationR().getPosition() >= 0.3){
-                robot.getServoFoundationL().setPosition(0);
-                robot.getServoFoundationR().setPosition(0);
-            }
-        }else {
+        if (hold == 0){
+            robot.getServoFoundationL().setPosition(0.35);
+            robot.getServoFoundationR().setPosition(0.35);
+        }else if (hold == 1) {
             robot.getServoFoundationL().setPosition(0);
             robot.getServoFoundationR().setPosition(0);
         }
-        return hold;
+        return true;
     }
 }
 

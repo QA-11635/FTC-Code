@@ -7,9 +7,9 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 public class AutoGrab implements Action {
 
     private Robot robot;
-    private boolean take;
+    private int take = 0;
 
-    public AutoGrab(boolean take) {
+    public AutoGrab(int take) {
         this.take = take;
     }
 
@@ -19,12 +19,12 @@ public class AutoGrab implements Action {
     }
     @Override
     public boolean loop() {
-        if (take){
+        if (take == 1){
             robot.getGrabServo().setPosition(1);
-        }else {
+        }else if (take == 0) {
             robot.getGrabServo().setPosition(0);
         }
-        return take;
+        return true;
     }
 }
 

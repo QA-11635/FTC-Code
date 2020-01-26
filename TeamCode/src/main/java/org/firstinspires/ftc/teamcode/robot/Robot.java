@@ -69,11 +69,11 @@ public class Robot {
     private DcMotor collectL = null;
     private DcMotor collectR = null;
 
-    private ColorSensor colorSensorL = null;
-//    private ColorSensor colorSensorS = null;
+    private ColorSensor colorSensorS = null;
+//    private ColorSensor colorSensorL = null;
     private TouchSensor touchSensorC = null;
     private TouchSensor touchSensorLmin = null;
-    private TouchSensor touchSensorLmax = null;
+//    private TouchSensor touchSensorLmax = null;
     private TouchSensor touchSensorHmin = null;
 
     private PID turnPID;
@@ -108,15 +108,15 @@ public class Robot {
         collectL = hardwareMap.get(DcMotor.class, "leftCollect");
         collectR = hardwareMap.get(DcMotor.class, "rightCollect");
 
-        colorSensorL = hardwareMap.get(ColorSensor.class,"colorSensor");
-//        colorSensorS = hardwareMap.get(ColorSensor.class,"colorSensorStone");
+//        colorSensorL = hardwareMap.get(ColorSensor.class,"colorSensorL");
+        colorSensorS = hardwareMap.get(ColorSensor.class,"colorSensorS");
 
         touchSensorC = hardwareMap.get(TouchSensor.class, "touchCollect");
 
-        touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
+//        touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
 //        touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
 
-        touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
+//        touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
 
 
         turnPID = new PID(0.067, 0, 0.001);
@@ -163,14 +163,14 @@ public class Robot {
         rightF.setDirection(DcMotor.Direction.REVERSE);
         rightB.setDirection(DcMotor.Direction.REVERSE);
 
-        liftMotor.setDirection(DcMotor.Direction.FORWARD);
+        liftMotor.setDirection(DcMotor.Direction.REVERSE);
         hexMotor.setDirection(DcMotor.Direction.FORWARD);
 
         collectL.setDirection(DcMotor.Direction.REVERSE);
         collectR.setDirection(DcMotor.Direction.FORWARD );
 
         servoFoundationL.setDirection(Servo.Direction.FORWARD);
-        servoFoundationR.setDirection(Servo.Direction.FORWARD);
+        servoFoundationR.setDirection(Servo.Direction.REVERSE);
 
         lazySusan.setDirection(Servo.Direction.FORWARD);
         grabServo.setDirection(Servo.Direction.FORWARD);
@@ -221,8 +221,8 @@ public class Robot {
         double leftPower = Range.clip(drive + turn, -1.0, 1.0);
         double rightPower = Range.clip(drive - turn, -1.0, 1.0);
 
-        leftPower /= 3;
-        rightPower /= 3;
+        leftPower *= 0.75;
+        rightPower *= 0.75;
 
         leftF.setPower(leftPower);
         leftB.setPower(leftPower);
@@ -287,11 +287,13 @@ public class Robot {
         return lazySusan;
     }
 
-    public ColorSensor getColorSensorL() {
-        return colorSensorL;
-    }
+//    public ColorSensor getColorSensorL() {
+//        return colorSensorL;
+//    }
 
-//    public ColorSensor getColorSensorS() {
+    public ColorSensor getColorSensorS() {
+        return colorSensorS;
+    }
 
     public TouchSensor getTouchSensorC(){
         return touchSensorC;

@@ -7,9 +7,9 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 public class AutoLazySusan implements Action {
 
     private Robot robot;
-    private boolean spin;
+    private int spin = 0;
 
-    public AutoLazySusan(boolean spin) {
+    public AutoLazySusan(int spin) {
         this.spin = spin;
     }
 
@@ -19,12 +19,12 @@ public class AutoLazySusan implements Action {
     }
     @Override
     public boolean loop() {
-        if (spin){
-            robot.getLazySusan().setPosition(0.15);
-        }else {
+        if (spin == 1){
             robot.getLazySusan().setPosition(0.45);
+        }else if (spin == 0) {
+            robot.getLazySusan().setPosition(0.15);
         }
-        return spin;
+        return true;
     }
 }
 

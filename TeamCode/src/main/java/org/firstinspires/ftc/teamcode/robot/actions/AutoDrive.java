@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.autonomous.Action;
 import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoDetect;
 
 public class AutoDrive implements Action {
 
@@ -12,7 +13,6 @@ public class AutoDrive implements Action {
 
 //    private double initial = 0;
     private int setPointMeters;
-
 
     public AutoDrive(int encoder) {
         this.setPointMeters = encoder;
@@ -53,10 +53,10 @@ public class AutoDrive implements Action {
         robot.getRightF().setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.getRightB().setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.getLeftF().setPower(0.7);
-        robot.getLeftB().setPower(0.7);
-        robot.getRightF().setPower(-0.7);
-        robot.getRightB().setPower(-0.7);
+        robot.getLeftF().setPower(0.75);
+        robot.getLeftB().setPower(0.75);
+        robot.getRightF().setPower(-0.75);
+        robot.getRightB().setPower(-0.75);
 
 
 
@@ -73,6 +73,7 @@ public class AutoDrive implements Action {
         robot.getLeftB().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.getRightF().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.getRightB().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         return true;
 

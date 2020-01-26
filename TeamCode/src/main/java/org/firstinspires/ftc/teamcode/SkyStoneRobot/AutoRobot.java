@@ -34,23 +34,15 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.autonomous.Action;
 import org.firstinspires.ftc.teamcode.robot.Robot;
-//import org.firstinspires.ftc.teamcode.robot.actions.AutoCollect;
-//import org.firstinspires.ftc.teamcode.robot.actions.AutoFoundation;
-//import org.firstinspires.ftc.teamcode.robot.actions.AutoGrab;
-//import org.firstinspires.ftc.teamcode.robot.actions.AutoHex;
-//import org.firstinspires.ftc.teamcode.robot.actions.AutoLazySusan;
-//import org.firstinspires.ftc.teamcode.robot.actions.AutoLift;
-//import org.firstinspires.ftc.teamcode.robot.actions.AutoLine;
-//import org.firstinspires.ftc.teamcode.robot.actions.AutoDetect;
-//import org.firstinspires.ftc.teamcode.robot.actions.AutoLift;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoCollect;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoDetect;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoGrab;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoHex;
-import org.firstinspires.ftc.teamcode.robot.actions.AutoLazySusan;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoLift;
+//import org.firstinspires.ftc.teamcode.robot.actions.AutoLine;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoTurn;
 import org.firstinspires.ftc.teamcode.robot.actions.AutoDrive;
+import org.firstinspires.ftc.teamcode.robot.actions.AutoFoundation;
 
 
 /**
@@ -79,18 +71,118 @@ public class AutoRobot extends OpMode {
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
         robot.runAutonomous(new Action[]{
-                new AutoLift(-1100),
-                new AutoDrive(2150),
-                new AutoTurn(-90),
-                new AutoDrive(-2400),
-                new AutoTurn(-45),
-                new AutoCollect(true),
-                new AutoDrive(2200),
-                new AutoDrive(-2400),
-                new AutoTurn(-90),
-//                new AutoCollect(false),
+
+/* BLUE ALLIANCE: */
+                //fOUNDATION SIDE FOUNDATION;
+
+//                new AutoFoundation(0),
+//                new AutoDrive(-2800),
+//                new AutoFoundation(0),
+//                new AutoFoundation(1),
+//                new AutoDrive(0),
+//                new AutoFoundation(1),
+//                new AutoTurn(20),
+//                new AutoDrive(1800),
+//                new AutoTurn(90),
+//                new AutoDrive(-700),
+//                new AutoFoundation(0),
+//                new AutoDrive(4000)
+
+                //FOUNDATION SIDE BRIDGE;
+
+//                new AutoDrive(3000)
+
+
+                //SKYSTONE SIDE BRIDGE;
+
+//                new AutoDrive(3000)
+
+
+                //SKYSTONE SIDE SKYSTONE;
+
                 new AutoLift(1100),
-                new AutoDrive(3700),
+                new AutoCollect(1),
+                new AutoDrive(2350),
+                new AutoCollect(0),
+                new AutoTurn(-90),
+                new AutoDrive(1000),
+                new AutoDetect(true),
+                new AutoDrive(-500),
+                new AutoDetect(true),
+                new AutoTurn(0),
+                new AutoDrive(250),
+                new AutoDrive(-250),
+                new AutoTurn(-15),
+                new AutoDrive(700),
+                new AutoDrive(-700),
+                new AutoTurn(-90),
+                new AutoDetect(true),
+                new AutoDrive(1300),
+                new AutoDetect(true),
+                new AutoDrive(-700),
+                new AutoTurn(0),
+                new AutoDrive(250),
+                new AutoDrive(-250),
+                new AutoTurn(-15),
+                new AutoDrive(700),
+                new AutoDrive(-700),
+                new AutoTurn(-90),
+                new AutoDetect(true),
+                new AutoDrive(1300),
+                new AutoDetect(true),
+                new AutoDrive(-700),
+                new AutoTurn(0),
+                new AutoDrive(250),
+                new AutoDrive(-250),
+                new AutoTurn(-15),
+                new AutoDrive(700),
+                new AutoDrive(-700),
+                new AutoTurn(-90),
+                new AutoGrab(0),
+                new AutoLift(-1100),
+                new AutoGrab(1),
+                new AutoDrive(-6000),
+                new AutoHex(90),
+                new AutoDrive(3000)
+
+
+
+
+
+
+
+
+
+
+        /*RED ALLIANCE:*/
+                //fOUNDATION SIDE FOUNDATION;
+
+                //FOUNDATION SIDE BRIDGE;
+
+//                new AutoDrive(3000)
+
+                //SKYSTONE SIDE BRIDGE;
+
+//                new AutoDrive(3000)
+
+
+                //SKYSTONE SIDE SKYSTONE;
+
+//                new AutoLift(-1100),
+//                new AutoDrive(2150),
+//                new AutoTurn(-90),
+//                new AutoDrive(-2400),
+//                new AutoTurn(-45),
+//                new AutoCollect(1),
+//                new AutoDrive(2200),
+//                new AutoDrive(-2400),
+//                new AutoTurn(-90),
+//                new AutoCollect(0),
+//                new AutoLift(1100),
+//                new AutoDrive(3700),
+
+
+
 
         });
     }
@@ -123,6 +215,5 @@ public class AutoRobot extends OpMode {
      */
     @Override
     public void stop() {
-    }
-
+     }
 }

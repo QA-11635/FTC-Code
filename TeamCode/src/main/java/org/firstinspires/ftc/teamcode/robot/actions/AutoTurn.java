@@ -22,7 +22,7 @@ public class AutoTurn implements Action {
 
     @Override
     public boolean loop() {
-        double fix = robot.getTurnPID().angle(robot.getLastAngles().firstAngle, setPoint, 2);
+        double fix = robot.getTurnPID().angle(robot.getLastAngles().firstAngle, setPoint, 1);
         double drive = 0;
         double turn = -fix;
         turn /= 2;
