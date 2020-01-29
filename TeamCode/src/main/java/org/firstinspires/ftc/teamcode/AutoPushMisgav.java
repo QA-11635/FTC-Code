@@ -67,7 +67,7 @@ public class AutoPushMisgav extends OpMode {
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
         robot.runAutonomous(new Action[]{
-                new AutoDrive(1)
+                new AutoDrive(1,0.5)
         });
     }
 

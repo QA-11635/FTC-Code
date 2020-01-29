@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.robot.actions.AutoTurn;
 public class AutoDetect implements Action {
 
     private Robot robot;
-    private boolean on;
+    public boolean on;
 
     public AutoDetect(boolean on) {
         this.on = on;

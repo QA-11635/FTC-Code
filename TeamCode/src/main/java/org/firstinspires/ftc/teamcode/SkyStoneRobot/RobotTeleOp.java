@@ -104,6 +104,12 @@ public class RobotTeleOp extends OpMode {
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         hexMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+//        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
+//        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
 
 
     }
@@ -135,8 +141,8 @@ public class RobotTeleOp extends OpMode {
         leftPower = Range.clip(drive + turn, -1.0, 1.0);
         rightPower = Range.clip(drive - turn, -1.0, 1.0);
 
-        leftPower *= 0.60;
-        rightPower *=0.60;
+        leftPower *= 0.8;
+        rightPower *=0.8;
 
         double lift = -gamepad2.left_stick_y;
         double hex = -gamepad2.right_stick_y;
@@ -166,10 +172,10 @@ public class RobotTeleOp extends OpMode {
         hexMotor.setPower(hexPower);
 
 //        //foundation servo
-        if (gamepad2.dpad_down) {
+        if (gamepad1.left_bumper) {
             servoFoundationL.setPosition(0);
             servoFoundationR.setPosition(0);
-        } else if (gamepad2.dpad_up) {
+        } else if (gamepad1.right_bumper) {
             servoFoundationL.setPosition(0.35);
             servoFoundationR.setPosition(0.35);
         }
@@ -185,6 +191,18 @@ public class RobotTeleOp extends OpMode {
             collectL.setPower(-1);
             collectR.setPower(-1);
         }
+
+//        if (gamepad1.a){
+//
+//            liftMotor.setTargetPosition(500);
+//
+//            while (liftMotor.isBusy()){
+//
+//            }
+//            liftMotor.setPower(0);
+//
+//
+//        }
 //        if (colorSensor.alpha() >= 50 && colorSensor.alpha() <= 62){
 //            collectL.setPower(0.9);
 //            collectR.setPower(0.9);
@@ -196,7 +214,7 @@ public class RobotTeleOp extends OpMode {
 
 //        //spin
         if (gamepad2.left_bumper) {
-            lazySusan.setPosition(0.15);
+            lazySusan.setPosition(0.1);
         } else if (gamepad2.right_bumper) {
             lazySusan.setPosition(0.45);
         }

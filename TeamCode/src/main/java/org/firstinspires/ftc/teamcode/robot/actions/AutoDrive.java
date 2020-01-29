@@ -12,10 +12,12 @@ public class AutoDrive implements Action {
     private Robot robot;
 
 //    private double initial = 0;
-    private int setPointMeters;
+    public int setPointMeters;
+    public double speed;
 
-    public AutoDrive(int encoder) {
+    public AutoDrive(int encoder, double speed) {
         this.setPointMeters = encoder;
+        this.speed = speed;
     }
 
     @Override
@@ -53,10 +55,10 @@ public class AutoDrive implements Action {
         robot.getRightF().setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.getRightB().setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.getLeftF().setPower(0.75);
-        robot.getLeftB().setPower(0.75);
-        robot.getRightF().setPower(-0.75);
-        robot.getRightB().setPower(-0.75);
+        robot.getLeftF().setPower(speed);
+        robot.getLeftB().setPower(speed);
+        robot.getRightF().setPower(-speed);
+        robot.getRightB().setPower(-speed);
 
 
 

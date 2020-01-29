@@ -70,10 +70,10 @@ public class Robot {
     private DcMotor collectR = null;
 
     private ColorSensor colorSensorS = null;
-//    private ColorSensor colorSensorL = null;
+    private ColorSensor colorSensorL = null;
     private TouchSensor touchSensorC = null;
     private TouchSensor touchSensorLmin = null;
-//    private TouchSensor touchSensorLmax = null;
+    private TouchSensor touchSensorLmax = null;
     private TouchSensor touchSensorHmin = null;
 
     private PID turnPID;
@@ -113,10 +113,10 @@ public class Robot {
 
         touchSensorC = hardwareMap.get(TouchSensor.class, "touchCollect");
 
-//        touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
-//        touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
+        touchSensorLmin = hardwareMap.get(TouchSensor.class, "touchLiftMin");
+        touchSensorLmax = hardwareMap.get(TouchSensor.class, "touchLiftMax");
 
-//        touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
+        touchSensorHmin = hardwareMap.get(TouchSensor.class, "touchHexMin");
 
 
         turnPID = new PID(0.067, 0, 0.001);
@@ -287,9 +287,9 @@ public class Robot {
         return lazySusan;
     }
 
-//    public ColorSensor getColorSensorL() {
-//        return colorSensorL;
-//    }
+    public ColorSensor getColorSensorL() {
+        return colorSensorL;
+    }
 
     public ColorSensor getColorSensorS() {
         return colorSensorS;
@@ -303,9 +303,9 @@ public class Robot {
         return touchSensorLmin;
     }
 
-//    public TouchSensor getTouchSensorLmax(){
-//        return touchSensorLmax;
-//    }
+    public TouchSensor getTouchSensorLmax(){
+        return touchSensorLmax;
+    }
 
     public TouchSensor getTouchSensorHmin(){
         return touchSensorHmin;

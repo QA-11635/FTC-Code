@@ -67,9 +67,9 @@ public class AutoPush2 extends OpMode {
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
         robot.runAutonomous(new Action[]{
-                new AutoDrive(1),
+                new AutoDrive(1,0.5),
                 new AutoTurn(90),
-                new AutoDrive(1)
+                new AutoDrive(1,0.5)
         });
     }
 
