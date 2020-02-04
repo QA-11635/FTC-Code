@@ -90,7 +90,7 @@ public class AutoRobot extends OpMode {
 
                 //FOUNDATION SIDE BRIDGE;
 
-//                new AutoDrive(3000)
+//                new AutoDrive(3000,0.75)
 
 
                 //SKYSTONE SIDE BRIDGE;
@@ -100,31 +100,31 @@ public class AutoRobot extends OpMode {
 
                 //SKYSTONE SIDE SKYSTONE;
 
-                new AutoLift(1100),
-                new AutoCollect(1),
-                new AutoDrive(2350,0.75),
-                new AutoCollect(0),
-                new AutoTurn(-35),
-                new AutoCollect(1),
-                new AutoDrive(650, 0.6),
-                new AutoCollect(1),
-                new AutoDrive(-650,0.75),
-                new AutoTurn(-90),
-                new AutoLift(-1100),
-                new AutoGrab(0),
-                new AutoDrive(-4700,0.75),
-                new AutoTurn(-180),
-                new AutoDrive(1000,0.75),
-                new AutoFoundation(0),
-                new AutoFoundation(1),
-                new AutoDrive(0,0),
-                new AutoFoundation(1),
-                new AutoTurn(20),
-                new AutoDrive(1800,0.75),
-                new AutoTurn(90),
-                new AutoDrive(-700,0.75),
-                new AutoFoundation(0),
-                new AutoDrive(4000,0.75)
+//                new AutoLift(1100),
+//                new AutoCollect(1),
+//                new AutoDrive(2350,0.75),
+//                new AutoCollect(0),
+//                new AutoTurn(-35),
+//                new AutoCollect(1),
+//                new AutoDrive(650, 0.6),
+//                new AutoCollect(1),
+//                new AutoDrive(-650,0.75),
+//                new AutoTurn(-90),
+//                new AutoLift(-1100),
+//                new AutoGrab(0),
+//                new AutoDrive(-4700,0.75),
+//                new AutoTurn(-180),
+//                new AutoDrive(1000,0.75),
+//                new AutoFoundation(0),
+//                new AutoFoundation(1),
+//                new AutoDrive(0,0),
+//                new AutoFoundation(1),
+//                new AutoTurn(20),
+//                new AutoDrive(1800,0.75),
+//                new AutoTurn(90),
+//                new AutoDrive(-700,0.75),
+//                new AutoFoundation(0),
+//                new AutoDrive(4000,0.75)
 
 //                new AutoDrive(1000),
 //                new AutoDetect(true),
@@ -191,7 +191,7 @@ public class AutoRobot extends OpMode {
 
                 //FOUNDATION SIDE BRIDGE;
 
-//                new AutoDrive(3000)
+//                new AutoDrive(3000, 0.75)
 
                 //SKYSTONE SIDE BRIDGE;
 

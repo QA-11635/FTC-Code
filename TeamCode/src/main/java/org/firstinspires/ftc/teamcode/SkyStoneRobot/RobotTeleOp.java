@@ -141,8 +141,8 @@ public class RobotTeleOp extends OpMode {
         leftPower = Range.clip(drive + turn, -1.0, 1.0);
         rightPower = Range.clip(drive - turn, -1.0, 1.0);
 
-        leftPower *= 0.8;
-        rightPower *=0.8;
+//        leftPower *= 0.8;
+//        rightPower *=0.8;
 
         double lift = -gamepad2.left_stick_y;
         double hex = -gamepad2.right_stick_y;
@@ -173,11 +173,11 @@ public class RobotTeleOp extends OpMode {
 
 //        //foundation servo
         if (gamepad1.left_bumper) {
-            servoFoundationL.setPosition(0);
-            servoFoundationR.setPosition(0);
+            servoFoundationL.setPosition(1);
+            servoFoundationR.setPosition(1);
         } else if (gamepad1.right_bumper) {
-            servoFoundationL.setPosition(0.35);
-            servoFoundationR.setPosition(0.35);
+            servoFoundationL.setPosition(0.7);
+            servoFoundationR.setPosition(0.7);
         }
 
 //        //collection
@@ -213,11 +213,11 @@ public class RobotTeleOp extends OpMode {
 //        }
 
 //        //spin
-        if (gamepad2.left_bumper) {
-            lazySusan.setPosition(0.1);
-        } else if (gamepad2.right_bumper) {
-            lazySusan.setPosition(0.45);
-        }
+//        if (gamepad2.left_bumper) {
+//            lazySusan.setPosition(-1);
+//        } else if (gamepad2.right_bumper) {
+//            lazySusan.setPosition(0);
+//        }
 
 
 
